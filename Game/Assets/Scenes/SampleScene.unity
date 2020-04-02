@@ -335,8 +335,11 @@ MonoBehaviour:
   barrelEnd: {fileID: 125834239}
   bulletSpeed: 15
   despawnTime: 3
+  maxAmmo: 30
+  currentAmmo: 0
+  reloadTime: 1
   shootAble: 1
-  waitBeforeNextShot: 0.05
+  waitBeforeNextShot: 0.4
 --- !u!1 &757536049
 GameObject:
   m_ObjectHideFlags: 0
