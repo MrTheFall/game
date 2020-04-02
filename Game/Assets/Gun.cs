@@ -40,9 +40,11 @@ public class Gun : MonoBehaviour
 
         if (currentAmmo <= 0)
         {
+            isReloading = true;
             StartCoroutine(Reload());
             return;
         }
+
         if (Input.GetKey(KeyCode.Mouse0))
         {
             if (shootAble)
