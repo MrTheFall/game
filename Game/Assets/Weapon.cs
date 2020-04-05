@@ -10,9 +10,9 @@ public abstract class Weapon : MonoBehaviour// An abstract class.
     [Header("General Info")]
     public int ammo;// How much is currently in the weapon
     public int ammoCanHold;// How much can this weapon hold at a time (max amount)
-    public int totalAmmo;// Total amount of ammo you can have for this gun
     public float reloadTime; // Must be changed for every new gun
     public bool isReloading = false;
+    public Ammo ammoType;
 
     public float damage;
     public float range;
@@ -31,7 +31,6 @@ public abstract class Weapon : MonoBehaviour// An abstract class.
     private AudioSource myAudio;
 
     private bool isActive = false;
-
 
     private void Start()
     {
@@ -52,7 +51,7 @@ public abstract class Weapon : MonoBehaviour// An abstract class.
 
         if (Input.GetMouseButton(0))
         {
-            if(timer>=fireCoolDown && ammo >= 1)
+            if(timer>=fireCoolDown && ammo > 0)
             {
                 Shoot();
                 timer = 0f;
@@ -82,30 +81,30 @@ public abstract class Weapon : MonoBehaviour// An abstract class.
 
     public void HandleUI()
     {
-        ui.Update_UI(ammo, totalAmmo);
+        ui.Update_UI(ammo, ammoType.totalAmmo);
     }
 
     IEnumerator Reload(float reloadTime)
     {
         if (!isReloading)
         {
-            if (totalAmmo > 0 && ammo != ammoCanHold)
+            if (ammoType.totalAmmo > 0 && ammo != ammoCanHold)
             {
                 isReloading = true;
                 yield return new WaitForSeconds(reloadTime);
                 int ammoNeeded = ammoCanHold - ammo;
 
-                if (ammoNeeded <= totalAmmo)
+                if (ammoNeeded <= ammoType.totalAmmo)
                 {
                     ammo += ammoNeeded;
-                    totalAmmo -= ammoNeeded;
+                    ammoType.totalAmmo -= ammoNeeded;
                 }
-                else if (totalAmmo == 0)
+                else if (ammoType.totalAmmo == 0)
                 { }
                 else
                 {
-                    ammo += totalAmmo;
-                    totalAmmo = 0;
+                    ammo += ammoType.totalAmmo;
+                    ammoType.totalAmmo = 0;
             }
             }
             HandleUI();

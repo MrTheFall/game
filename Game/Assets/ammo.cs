@@ -1,26 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ammo : MonoBehaviour
+[CreateAssetMenu(menuName = "Weapon/Ammo")]
+public class Ammo : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start() { 
-    
-        
-    }
+    public int totalAmmo;
+    public int startAmmo;
 
-    // Update is called once per frame
-    void Update() { 
-    
-    }
-    
-     private void OnTriggerEnter(Collider other)
-    {   
-        if(other.name == "FPSController")
-        {
-            Destroy(gameObject);
-                
-        }
+    void OnEnable()
+    {
+        totalAmmo = startAmmo;
     }
 }

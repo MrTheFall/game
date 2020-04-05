@@ -26,7 +26,7 @@ public class Weapon_Pickup : MonoBehaviour
 
     private void PickupWeapon()
     {
-        if (canPickUp)
+        if (canPickUp && (GameObject.Find("Hand").transform.childCount == 0))
         {
             holder.PickupWeapon(this.gameObject);
             myWeapon.HandleUI();

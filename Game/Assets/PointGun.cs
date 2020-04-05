@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pistol : Weapon// Inherit everything from the "Weapon" script
+public class PointGun : Weapon// Inherit everything from the "Weapon" script
 {
     public override void Shoot()// Overriding the Shoot() method from the "Weapon" script
     {
