@@ -9,6 +9,6 @@ public class Ammo : ScriptableObject
 
     void OnEnable()
     {
-        totalAmmo = startAmmo;  
+        totalAmmo = startAmmo;
     }
 }
