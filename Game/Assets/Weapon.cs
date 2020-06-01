@@ -20,6 +20,10 @@ public abstract class Weapon : MonoBehaviour// An abstract class.
     public float fireCoolDown;// How long should this weapon wait before it can shoot again
     private float timer = 0f;
 
+    [Header("Sound")]
+    public AudioSource shootAudio;
+    public AudioSource reloadAudio;
+
     [Header("UI")]
     public Sprite customCrossHair;// A sprite that represents the crosshair for this particular weapon
 
@@ -28,16 +32,12 @@ public abstract class Weapon : MonoBehaviour// An abstract class.
 
     private Weapon_UI ui;
 
-    private AudioSource myAudio;
-
     private bool isActive = false;
 
     private void Start()
     {
         isReloading = false;
         ui = FindObjectOfType<Weapon_UI>();
-        myAudio = GetComponent<AudioSource>();
-        myAudio.playOnAwake = false;
     }
 
     private void Update()
@@ -90,6 +90,7 @@ public abstract class Weapon : MonoBehaviour// An abstract class.
         {
             if (ammoType.totalAmmo > 0 && ammo != ammoCanHold)
             {
+                reloadAudio.Play();
                 isReloading = true;
                 yield return new WaitForSeconds(reloadTime);
                 int ammoNeeded = ammoCanHold - ammo;
@@ -105,7 +106,7 @@ public abstract class Weapon : MonoBehaviour// An abstract class.
                 {
                     ammo += ammoType.totalAmmo;
                     ammoType.totalAmmo = 0;
-            }
+                }
             }
             HandleUI();
             // Play reloading animation here
@@ -117,7 +118,7 @@ public abstract class Weapon : MonoBehaviour// An abstract class.
     {
         if (!isReloading)
         {
-            myAudio.Play();
+            shootAudio.Play();
             ammo -= 1;
             HandleUI();
             // Play shooting animation here
