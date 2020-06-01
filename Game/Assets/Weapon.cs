@@ -5,7 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Weapon_Pickup))]
-public abstract class Weapon : MonoBehaviour// An abstract class. 
+public abstract class Weapon : MonoBehaviour // An abstract class. 
 {
     [Header("General Info")]
     public int ammo;// How much is currently in the weapon
