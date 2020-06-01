@@ -48,7 +48,6 @@ public abstract class Weapon : MonoBehaviour // An abstract class.
 
     public bool aim;
 
-
     [Header("Sound")]
     public AudioSource shootAudio;
     public AudioSource reloadAudio;
