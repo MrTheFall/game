@@ -164,6 +164,24 @@ MonoBehaviour:
   damage: 10
   range: 30
   fireCoolDown: 0.1
+  RecoilPositionTranform: {fileID: 1768196882}
+  RecoilRotationTranform: {fileID: 34341120}
+  PositionDampTime: 6
+  RotationDampTime: 9
+  Recoil1: 35
+  Recoil2: 50
+  Recoil3: 35
+  Recoil4: 50
+  RecoilRotation: {x: -10, y: 4, z: 6}
+  RecoilKickBack: {x: 0.015, y: 0.01, z: -0.075}
+  RecoilRotation_Aim: {x: 0, y: 0, z: 0}
+  RecoilKickBack_Aim: {x: 0, y: 0, z: 0}
+  CurrentRecoil1: {x: 0, y: 0, z: 0}
+  CurrentRecoil2: {x: 0, y: 0, z: 0}
+  CurrentRecoil3: {x: 0, y: 0, z: 0}
+  CurrentRecoil4: {x: 0, y: 0, z: 0}
+  RotationOutput: {x: 0, y: 0, z: 0}
+  aim: 0
   shootAudio: {fileID: 11098634}
   reloadAudio: {fileID: 11098640}
   customCrossHair: {fileID: 0}
@@ -539,6 +557,36 @@ Transform:
   m_Father: {fileID: 757536050}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &34341119
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 34341120}
+  m_Layer: 0
+  m_Name: Recoil_Rotation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &34341120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34341119}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1768196882}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &352014509
 GameObject:
   m_ObjectHideFlags: 0
@@ -623,7 +671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e68f03765645e6c4181db5cc7541115f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hand: {fileID: 915747357}
+  hand: {fileID: 34341120}
   weapon: {fileID: 0}
 --- !u!1 &481821453
 GameObject:
@@ -932,7 +980,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.17, y: -0.3450001, z: 0.954}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1768196882}
   m_Father: {fileID: 963194228}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -970,6 +1019,7 @@ MonoBehaviour:
   animator: {fileID: 915747358}
   Rifle: {fileID: 11098632}
   Pistol: {fileID: 1305097956}
+  Recoil_Rotation: {fileID: 34341119}
   RifleBool: RifleZoomedIn
   PistolBool: PistolZoomedIn
 --- !u!114 &915747360
@@ -1474,9 +1524,27 @@ MonoBehaviour:
   damage: 10
   range: 30
   fireCoolDown: 0.4
+  RecoilPositionTranform: {fileID: 1768196882}
+  RecoilRotationTranform: {fileID: 34341120}
+  PositionDampTime: 6
+  RotationDampTime: 9
+  Recoil1: 35
+  Recoil2: 50
+  Recoil3: 35
+  Recoil4: 50
+  RecoilRotation: {x: -10, y: 4, z: 10}
+  RecoilKickBack: {x: 0.015, y: 0.01, z: -0.075}
+  RecoilRotation_Aim: {x: 0, y: 0, z: 0}
+  RecoilKickBack_Aim: {x: 0, y: 0, z: 0}
+  CurrentRecoil1: {x: 0, y: 0, z: 0}
+  CurrentRecoil2: {x: 0, y: 0, z: 0}
+  CurrentRecoil3: {x: 0, y: 0, z: 0}
+  CurrentRecoil4: {x: 0, y: 0, z: 0}
+  RotationOutput: {x: 0, y: 0, z: 0}
+  aim: 0
   shootAudio: {fileID: 1305097958}
   reloadAudio: {fileID: 1305097964}
-  customCrossHair: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  customCrossHair: {fileID: 0}
   cam: {fileID: 963194227}
 --- !u!82 &1305097958
 AudioSource:
@@ -1972,6 +2040,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1768196881
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1768196882}
+  m_Layer: 0
+  m_Name: Recoil_Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1768196882
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768196881}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 34341120}
+  m_Father: {fileID: 915747357}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1900515058
 GameObject:

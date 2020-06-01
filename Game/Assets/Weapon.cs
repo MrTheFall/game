@@ -20,6 +20,35 @@ public abstract class Weapon : MonoBehaviour // An abstract class.
     public float fireCoolDown;// How long should this weapon wait before it can shoot again
     private float timer = 0f;
 
+    [Header("Recoil_Transform")]
+    public Transform RecoilPositionTranform;
+    public Transform RecoilRotationTranform;
+    [Space(10)]
+    [Header("Recoil_Settings")]
+    public float PositionDampTime = 6;
+    public float RotationDampTime = 9;
+    [Space(10)]
+    public float Recoil1 = 35;
+    public float Recoil2 = 50;
+    public float Recoil3 = 35;
+    public float Recoil4 = 50;
+    [Space(10)]
+    public Vector3 RecoilRotation = new Vector3(-10, 4, 6);
+    public Vector3 RecoilKickBack = new Vector3(0.015f, 0.01f, -0.075f);
+
+    public Vector3 RecoilRotation_Aim;
+    public Vector3 RecoilKickBack_Aim;
+    [Space(10)]
+    public Vector3 CurrentRecoil1;
+    public Vector3 CurrentRecoil2;
+    public Vector3 CurrentRecoil3;
+    public Vector3 CurrentRecoil4;
+    [Space(10)]
+    public Vector3 RotationOutput;
+
+    public bool aim;
+
+
     [Header("Sound")]
     public AudioSource shootAudio;
     public AudioSource reloadAudio;
@@ -63,6 +92,15 @@ public abstract class Weapon : MonoBehaviour // An abstract class.
             StartCoroutine(Reload(reloadTime));
             return;
         }
+
+        CurrentRecoil1 = Vector3.Lerp(CurrentRecoil1, Vector3.zero, Recoil1 * Time.deltaTime);
+        CurrentRecoil2 = Vector3.Lerp(CurrentRecoil2, CurrentRecoil1, Recoil2 * Time.deltaTime);
+        CurrentRecoil3 = Vector3.Lerp(CurrentRecoil3, Vector3.zero, Recoil3 * Time.deltaTime);
+        CurrentRecoil4 = Vector3.Lerp(CurrentRecoil4, CurrentRecoil3, Recoil4 * Time.deltaTime);
+
+        RecoilPositionTranform.localPosition = Vector3.Slerp(RecoilPositionTranform.localPosition, CurrentRecoil3, PositionDampTime * Time.fixedDeltaTime);
+        RotationOutput = Vector3.Slerp(RotationOutput, CurrentRecoil1, RotationDampTime * Time.fixedDeltaTime);
+        RecoilRotationTranform.localRotation = Quaternion.Euler(RotationOutput);
     }
 
     public void WeaponIsActive(bool _value)
@@ -122,6 +160,8 @@ public abstract class Weapon : MonoBehaviour // An abstract class.
             ammo -= 1;
             HandleUI();
             // Play shooting animation here
+            CurrentRecoil1 += new Vector3(RecoilRotation.x, UnityEngine.Random.Range(-RecoilRotation.y, RecoilRotation.y), UnityEngine.Random.Range(-RecoilRotation.z, RecoilRotation.z));
+            CurrentRecoil3 += new Vector3(UnityEngine.Random.Range(-RecoilKickBack.x, RecoilKickBack.x), UnityEngine.Random.Range(-RecoilKickBack.y, RecoilKickBack.y), RecoilKickBack.z);
         }
     }
 

@@ -7,6 +7,7 @@ public class Scope : MonoBehaviour
     public Animator animator;
     public GameObject Rifle;
     public GameObject Pistol;
+    public GameObject Recoil_Rotation;
 
     public string RifleBool;
     public string PistolBool;
@@ -14,9 +15,9 @@ public class Scope : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.transform.childCount > 0)
+        if (Recoil_Rotation.transform.childCount > 0)
         {
-            if (gameObject.transform.GetChild(0).name == Rifle.transform.name)
+            if (Recoil_Rotation.transform.GetChild(0).name == Rifle.transform.name)
             {
                 if (Input.GetButtonDown("Fire2"))
                 {
@@ -27,7 +28,7 @@ public class Scope : MonoBehaviour
                     animator.SetBool(RifleBool, false);
                 }
             }
-            if (gameObject.transform.GetChild(0).name == Pistol.transform.name)
+            if (Recoil_Rotation.transform.GetChild(0).name == Pistol.transform.name)
             {
                 if (Input.GetButtonDown("Fire2"))
                 {
