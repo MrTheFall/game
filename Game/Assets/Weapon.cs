@@ -46,7 +46,22 @@ public abstract class Weapon : MonoBehaviour // An abstract class.
     [Space(10)]
     public Vector3 RotationOutput;
 
-    public bool aim;
+    [Header("Cam Recoil")]
+    public Transform RecoilCamTransform;
+    public float camRotationSpeed = 6;
+    public float camReturnSpeed = 25;
+
+    [Header("Hipfire")]
+    public Vector3 camRecoilRotation = new Vector3(2f, 2f, 2f);
+
+    [Header("Aiming")]
+    public Vector3 camRecoilRotationAiming = new Vector3(0.5f, 0.5f, 1.5f);
+
+    [Header("State")]
+    public bool isAimed;
+
+    private Vector3 camCurrentRotation;
+    private Vector3 camRot;
 
     [Header("Sound")]
     public AudioSource shootAudio;
@@ -85,6 +100,15 @@ public abstract class Weapon : MonoBehaviour // An abstract class.
                 timer = 0f;
             }
         }
+        
+        if (Input.GetMouseButton(1))
+        {
+            isAimed = true;
+        }
+        else
+        {
+            isAimed = false;
+        }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -100,6 +124,11 @@ public abstract class Weapon : MonoBehaviour // An abstract class.
         RecoilPositionTranform.localPosition = Vector3.Slerp(RecoilPositionTranform.localPosition, CurrentRecoil3, PositionDampTime * Time.fixedDeltaTime);
         RotationOutput = Vector3.Slerp(RotationOutput, CurrentRecoil1, RotationDampTime * Time.fixedDeltaTime);
         RecoilRotationTranform.localRotation = Quaternion.Euler(RotationOutput);
+
+
+        camCurrentRotation = Vector3.Lerp(camCurrentRotation, Vector3.zero, camReturnSpeed * Time.deltaTime);
+        camRot = Vector3.Slerp(camRot, camCurrentRotation, camRotationSpeed * Time.fixedDeltaTime);
+        RecoilCamTransform.localRotation = Quaternion.Euler(camRot);
     }
 
     public void WeaponIsActive(bool _value)
@@ -161,6 +190,15 @@ public abstract class Weapon : MonoBehaviour // An abstract class.
             // Play shooting animation here
             CurrentRecoil1 += new Vector3(RecoilRotation.x, UnityEngine.Random.Range(-RecoilRotation.y, RecoilRotation.y), UnityEngine.Random.Range(-RecoilRotation.z, RecoilRotation.z));
             CurrentRecoil3 += new Vector3(UnityEngine.Random.Range(-RecoilKickBack.x, RecoilKickBack.x), UnityEngine.Random.Range(-RecoilKickBack.y, RecoilKickBack.y), RecoilKickBack.z);
+        
+            if (isAimed)
+            {
+                camCurrentRotation += new Vector3(-camRecoilRotationAiming.x, UnityEngine.Random.Range(-camRecoilRotationAiming.y, camRecoilRotationAiming.y), UnityEngine.Random.Range(-camRecoilRotationAiming.z, camRecoilRotationAiming.z));
+            }
+            else
+            {
+                camCurrentRotation += new Vector3(-camRecoilRotation.x, UnityEngine.Random.Range(-camRecoilRotation.y, camRecoilRotation.y), UnityEngine.Random.Range(-camRecoilRotation.z, camRecoilRotation.z));
+            }
         }
     }
 
