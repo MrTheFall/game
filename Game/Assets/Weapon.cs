@@ -52,7 +52,7 @@ public abstract class Weapon : MonoBehaviour // An abstract class.
     public float camReturnSpeed = 25;
 
     [Header("Hipfire")]
-    public Vector3 camRecoilRotation = new Vector3(2f, 2f, 2f);
+    public Vector3 camRecoilRotation = new Vector3(5f, 5f, 5f);
 
     [Header("Aiming")]
     public Vector3 camRecoilRotationAiming = new Vector3(0.5f, 0.5f, 1.5f);

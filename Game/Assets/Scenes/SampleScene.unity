@@ -183,9 +183,9 @@ MonoBehaviour:
   RotationOutput: {x: 0, y: 0, z: 0}
   RecoilCamTransform: {fileID: 1180676361}
   camRotationSpeed: 6
-  camReturnSpeed: 25
-  camRecoilRotation: {x: 2, y: 2, z: 2}
-  camRecoilRotationAiming: {x: 0.5, y: 0.5, z: 1.5}
+  camReturnSpeed: 15
+  camRecoilRotation: {x: 5, y: 5, z: 5}
+  camRecoilRotationAiming: {x: 2, y: 2, z: 2}
   isAimed: 0
   shootAudio: {fileID: 11098634}
   reloadAudio: {fileID: 11098640}
@@ -785,7 +785,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &549856484
 GameObject:
@@ -837,12 +837,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1536,8 +1536,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 364c4474748ed0840bca8dafd0dc338c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoType: {fileID: 0}
-  ammoAmount: 0
+  ammoType: {fileID: 11400000, guid: 5a386ac3f80efa14b99712bb02d94ec1, type: 2}
+  ammoAmount: 100
 --- !u!135 &1270537181
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1673,9 +1673,9 @@ MonoBehaviour:
   CurrentRecoil4: {x: 0, y: 0, z: 0}
   RotationOutput: {x: 0, y: 0, z: 0}
   RecoilCamTransform: {fileID: 1180676361}
-  camRotationSpeed: 6
-  camReturnSpeed: 25
-  camRecoilRotation: {x: 2, y: 2, z: 2}
+  camRotationSpeed: 25
+  camReturnSpeed: 1
+  camRecoilRotation: {x: 3, y: 3, z: 3}
   camRecoilRotationAiming: {x: 0.5, y: 0.5, z: 1.5}
   isAimed: 0
   shootAudio: {fileID: 1305097958}
@@ -2134,8 +2134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 364c4474748ed0840bca8dafd0dc338c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoType: {fileID: 0}
-  ammoAmount: 0
+  ammoType: {fileID: 11400000, guid: d1a6a2860c467984a9996624cfc31bfe, type: 2}
+  ammoAmount: 100
 --- !u!65 &1511141957
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2203,12 +2203,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1511141955}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.71, y: 1.47, z: 3.22}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.71000004, y: 1.47, z: 3.2200003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1768196881
 GameObject:
