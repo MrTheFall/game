@@ -5,7 +5,6 @@ using UnityEngine;
 using Photon.Pun;
 
 [RequireComponent(typeof(AudioSource))]
-[RequireComponent(typeof(Weapon_Pickup))]
 public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class. 
 {
     [Header("General Info")]

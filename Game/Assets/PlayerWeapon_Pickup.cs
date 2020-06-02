@@ -14,20 +14,32 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
     public Transform Recoil_Rotation;
     public Transform Recoil_Position;
     public Transform Recoil_Camera;
+    public GameObject Ground_Check;
     public GameObject weapon;
     private Weapon myWeapon;
+    private bool canPickUp = true;
+    private float waitBeforePickUp = 1f;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        canPickUp = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
-        
+        {
             photonView.RPC("RaycastPickUpGun", RpcTarget.All);
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            DropWeapon();
+        }
+
     }
 
 
@@ -57,4 +69,26 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
         }
         return hit;
     }
+
+    public void DropWeapon()
+    {
+        if (weapon != null) // Checking if we are currently holding a weapon, before we drop it
+        {
+            Vector3 pos = new Vector3(Ground_Check.transform.position.x, Ground_Check.transform.position.y + 0.5f, Ground_Check.transform.position.z);
+            weapon.transform.rotation = Ground_Check.transform.rotation;
+            weapon.transform.parent = null;
+            weapon.transform.position = pos;
+            myWeapon.WeaponIsActive(false);
+            weapon = null;
+            StartCoroutine(PickUpTimer()); 
+        }
+    }
+
+    IEnumerator PickUpTimer()
+    {
+        canPickUp = false;
+        yield return new WaitForSeconds(waitBeforePickUp);
+        canPickUp = true;
+    }
+
 }

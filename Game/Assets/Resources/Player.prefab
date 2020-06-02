@@ -272,8 +272,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3492666858646249696}
-  - component: {fileID: 6798108139237498542}
-  - component: {fileID: 5850147423085655842}
   m_Layer: 8
   m_Name: Recoil_Rotation
   m_TagString: Untagged
@@ -295,42 +293,6 @@ Transform:
   m_Father: {fileID: 225276895027108820}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6798108139237498542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2687093689110031727}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &5850147423085655842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2687093689110031727}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e68f03765645e6c4181db5cc7541115f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hand: {fileID: 3492666858646249696}
-  weapon: {fileID: 0}
 --- !u!1 &3154346785177372933
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,6 +485,7 @@ MonoBehaviour:
   Recoil_Rotation: {fileID: 3492666858646249696}
   Recoil_Position: {fileID: 225276895027108820}
   Recoil_Camera: {fileID: 1027941605373742451}
+  Ground_Check: {fileID: 3608659442676131868}
   weapon: {fileID: 0}
 --- !u!1 &8684904025239314462
 GameObject:
