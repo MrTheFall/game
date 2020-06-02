@@ -8,12 +8,12 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public CharacterController controller;
 
     public float speed = 15f;
-    public float gravity = -9.81f;
+    public float gravity = -39.24f;
     public float jumpHeight = 3;
 
 
     public Transform groundCheck;
-    public float groundDistance = 0.4f;
+    public float groundDistance = 0.1f;
     
 
     Vector3 velocity;
@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     void Start()
     {
         if (!photonView.IsMine) gameObject.layer = 11;
+        
     }
 
     // Update is called once per frame

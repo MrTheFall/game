@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9213136978611533785}
   - component: {fileID: 8737589243385279262}
-  - component: {fileID: 2820275301945705331}
   - component: {fileID: 4457081604304560316}
   - component: {fileID: 401513145334804046}
   m_Layer: 8
@@ -78,14 +77,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &2820275301945705331
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 438618256300987804}
-  m_Enabled: 1
 --- !u!114 &4457081604304560316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 100
   playerBody: {fileID: 4235529402601730842}
+  Main_Camera: {fileID: 9213136978611533785}
 --- !u!114 &401513145334804046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,6 +360,7 @@ GameObject:
   - component: {fileID: 4592569114724382425}
   - component: {fileID: 6859708575561258163}
   - component: {fileID: 6532908561434340539}
+  - component: {fileID: 2604123567956671355}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -487,6 +480,14 @@ MonoBehaviour:
   Recoil_Camera: {fileID: 1027941605373742451}
   Ground_Check: {fileID: 3608659442676131868}
   weapon: {fileID: 0}
+--- !u!81 &2604123567956671355
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4044817573929763125}
+  m_Enabled: 1
 --- !u!1 &8684904025239314462
 GameObject:
   m_ObjectHideFlags: 0
