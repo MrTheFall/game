@@ -131,7 +131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 225276895027108820}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Recoil_Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6274269606059755995}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Camera Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,7 +256,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2318127858345999481}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8470001, z: 0}
+  m_LocalPosition: {x: 0, y: 0.903, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1027941605373742451}
@@ -272,7 +272,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3492666858646249696}
-  m_Layer: 0
+  - component: {fileID: 6798108139237498542}
+  - component: {fileID: 5850147423085655842}
+  m_Layer: 8
   m_Name: Recoil_Rotation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -293,6 +295,42 @@ Transform:
   m_Father: {fileID: 225276895027108820}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6798108139237498542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2687093689110031727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &5850147423085655842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2687093689110031727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e68f03765645e6c4181db5cc7541115f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hand: {fileID: 3492666858646249696}
+  weapon: {fileID: 0}
 --- !u!1 &3154346785177372933
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,7 +386,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3608659442676131868}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.029, z: 0}
+  m_LocalPosition: {x: 0, y: -1.046, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4235529402601730842}
@@ -364,10 +402,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4235529402601730842}
   - component: {fileID: 3307855066046693064}
-  - component: {fileID: 2489846506761180636}
   - component: {fileID: 6282191076674445676}
   - component: {fileID: 4592569114724382425}
   - component: {fileID: 6859708575561258163}
+  - component: {fileID: 6532908561434340539}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -410,20 +448,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2489846506761180636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4044817573929763125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e68f03765645e6c4181db5cc7541115f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hand: {fileID: 3492666858646249696}
-  weapon: {fileID: 0}
 --- !u!114 &6282191076674445676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +503,27 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
+--- !u!114 &6532908561434340539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4044817573929763125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66ef5d8ddba79ec4aaae967ffd7a604e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 8737589243385279262}
+  pickupRange: 150
+  pickupLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  Recoil_Rotation: {fileID: 3492666858646249696}
+  Recoil_Position: {fileID: 225276895027108820}
+  Recoil_Camera: {fileID: 1027941605373742451}
+  weapon: {fileID: 0}
 --- !u!1 &8684904025239314462
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,7 +537,7 @@ GameObject:
   - component: {fileID: 1866559873327274840}
   - component: {fileID: 1692282652190675142}
   - component: {fileID: 357890624158122301}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
@@ -546,8 +591,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2918560370371355951}
-  Rifle: {fileID: 0}
-  Pistol: {fileID: 0}
+  RifleName: Rifle
+  PistolName: Pistol
   Recoil_Rotation: {fileID: 2687093689110031727}
   RifleBool: RifleZoomedIn
   PistolBool: PistolZoomedIn

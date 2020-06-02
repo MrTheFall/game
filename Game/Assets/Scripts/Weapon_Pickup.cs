@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using Photon.Realtime;
 
 public class Weapon_Pickup : MonoBehaviourPunCallbacks
 {
@@ -11,12 +11,10 @@ public class Weapon_Pickup : MonoBehaviourPunCallbacks
     private bool canPickUp = true;
     private float waitBeforePickUp = 1f;
 
-
     private void Start()
     {
         canPickUp = true;
         myWeapon = GetComponent<Weapon>();
-        holder = FindObjectOfType<Weapon_Holder>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -31,7 +29,8 @@ public class Weapon_Pickup : MonoBehaviourPunCallbacks
     {
         if (canPickUp && (GameObject.Find("Recoil_Rotation").transform.childCount == 0))
         {
-            holder.PickupWeapon(gameObject);
+            Weapon_Holder holder = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Weapon_Holder>();
+            holder.photonView.RPC("PickupWeapon", RpcTarget.All, gameObject);
             myWeapon.HandleUI();
             myWeapon.WeaponIsActive(true);
             holder.hand.gameObject.GetComponent<Sway>().enabled = photonView.IsMine;

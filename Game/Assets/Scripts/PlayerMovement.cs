@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (!photonView.IsMine) gameObject.layer = 11;
     }
 
     // Update is called once per frame

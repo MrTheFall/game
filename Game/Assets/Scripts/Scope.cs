@@ -5,20 +5,25 @@ using Photon.Pun;
 public class Scope : MonoBehaviourPunCallbacks
 {
     public Animator animator;
-    public GameObject Rifle;
-    public GameObject Pistol;
+    public string RifleName = "Rifle";
+    public string PistolName = "Pistol";
     public GameObject Recoil_Rotation;
 
-    public string RifleBool;
-    public string PistolBool;
+    public string RifleBool = "RifleZoomedIn";
+    public string PistolBool = "PistolZoomedIn";
 
     // Update is called once per frame
+    private void Start()
+    {
+        RifleBool = "PistolZoomedIn";
+        PistolBool = "PistolZoomedIn";
+    }
     void Update()
     {
         if (!photonView.IsMine) return;
         if (Recoil_Rotation.transform.childCount > 0)
         {
-            if (Recoil_Rotation.transform.GetChild(0).name == Rifle.transform.name)
+            if (Recoil_Rotation.transform.GetChild(0).name == RifleName)
             {
                 if (Input.GetButtonDown("Fire2"))
                 {
@@ -29,7 +34,7 @@ public class Scope : MonoBehaviourPunCallbacks
                     animator.SetBool(RifleBool, false);
                 }
             }
-            if (Recoil_Rotation.transform.GetChild(0).name == Pistol.transform.name)
+            if (Recoil_Rotation.transform.GetChild(0).name == PistolName)
             {
                 if (Input.GetButtonDown("Fire2"))
                 {

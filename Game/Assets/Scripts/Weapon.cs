@@ -22,8 +22,8 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
     private float timer = 0f;
 
     [Header("Recoil_Transform")]
-    public Transform RecoilPositionTranform;
-    public Transform RecoilRotationTranform;
+    public Transform RecoilPositionTransform;
+    public Transform RecoilRotationTransform;
     [Space(10)]
     [Header("Recoil_Settings")]
     public float PositionDampTime = 6;
@@ -122,9 +122,9 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
         CurrentRecoil3 = Vector3.Lerp(CurrentRecoil3, Vector3.zero, Recoil3 * Time.deltaTime);
         CurrentRecoil4 = Vector3.Lerp(CurrentRecoil4, CurrentRecoil3, Recoil4 * Time.deltaTime);
 
-        RecoilPositionTranform.localPosition = Vector3.Slerp(RecoilPositionTranform.localPosition, CurrentRecoil3, PositionDampTime * Time.fixedDeltaTime);
+        RecoilPositionTransform.localPosition = Vector3.Slerp(RecoilPositionTransform.localPosition, CurrentRecoil3, PositionDampTime * Time.fixedDeltaTime);
         RotationOutput = Vector3.Slerp(RotationOutput, CurrentRecoil1, RotationDampTime * Time.fixedDeltaTime);
-        RecoilRotationTranform.localRotation = Quaternion.Euler(RotationOutput);
+        RecoilRotationTransform.localRotation = Quaternion.Euler(RotationOutput);
 
 
         camCurrentRotation = Vector3.Lerp(camCurrentRotation, Vector3.zero, camReturnSpeed * Time.deltaTime);
