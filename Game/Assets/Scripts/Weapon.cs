@@ -86,8 +86,6 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
 
     private void Update()
     {
-        if (!photonView.IsMine) return;
-
         if (!isActive)// Need this here. Otherwise every weapon in your game will fire when you press the LMB. 
         {
             return;
