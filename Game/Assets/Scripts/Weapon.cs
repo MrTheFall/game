@@ -91,16 +91,15 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
         }
 
         timer += Time.deltaTime;
-
         if (Input.GetMouseButton(0))
         {
-            if(timer>=fireCoolDown && ammo > 0)
+            if (timer >= fireCoolDown && ammo > 0)
             {
-                Shoot();
+                photonView.RPC("Shoot", RpcTarget.All);
                 timer = 0f;
             }
         }
-        
+
         if (Input.GetMouseButton(1))
         {
             isAimed = true;
@@ -180,6 +179,7 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
         }
     }
 
+    [PunRPC]
     public virtual void Shoot()
     {
         if (!isReloading)

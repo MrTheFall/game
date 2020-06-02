@@ -17,15 +17,9 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
     public GameObject Ground_Check;
     public GameObject weapon;
     private Weapon myWeapon;
-    private bool canPickUp = true;
-    private float waitBeforePickUp = 1f;
 
 
     // Start is called before the first frame update
-    void Start()
-    {
-        canPickUp = true;
-    }
 
     // Update is called once per frame
     void Update()
@@ -80,15 +74,6 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
             weapon.transform.position = pos;
             myWeapon.WeaponIsActive(false);
             weapon = null;
-            StartCoroutine(PickUpTimer()); 
         }
     }
-
-    IEnumerator PickUpTimer()
-    {
-        canPickUp = false;
-        yield return new WaitForSeconds(waitBeforePickUp);
-        canPickUp = true;
-    }
-
 }

@@ -478,7 +478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 8737589243385279262}
-  pickupRange: 150
+  pickupRange: 200
   pickupLayerMask:
     serializedVersion: 2
     m_Bits: 1024

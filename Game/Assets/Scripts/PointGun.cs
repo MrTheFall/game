@@ -9,6 +9,7 @@ public class PointGun : Weapon// Inherit everything from the "Weapon" script
     [Header("Textures")]
     public GameObject bulletholePrefab;
 
+    [PunRPC]
     public override void Shoot()// Overriding the Shoot() method from the "Weapon" script
     {
         if (!isReloading)
@@ -27,6 +28,15 @@ public class PointGun : Weapon// Inherit everything from the "Weapon" script
                 GameObject newHole = Instantiate(bulletholePrefab, hit.point + hit.normal * 0.001f, Quaternion.identity) as GameObject;
                 newHole.transform.LookAt(hit.point + hit.normal);
                 Destroy(newHole, 5f);
+
+                if (photonView.IsMine)
+                {
+                    //if we hit enemy player
+                    if(hit.collider.gameObject.layer == 11)
+                    {
+                        //RPC with command to damage enemy player
+                    }
+                }
             }
         }
     }
