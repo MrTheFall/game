@@ -303,9 +303,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammo: 30
   ammoCanHold: 30
+  ammoReserve: 300
   reloadTime: 1.5
   isReloading: 0
-  ammoType: {fileID: 11400000, guid: d1a6a2860c467984a9996624cfc31bfe, type: 2}
+  ammoType: {fileID: 11400000, guid: 702b528bb57f7f24b9b9ca8fb29e066a, type: 2}
   damage: 10
   range: 30
   fireCoolDown: 0.1
@@ -355,7 +356,8 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 0
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

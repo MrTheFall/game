@@ -303,6 +303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammo: 5
   ammoCanHold: 5
+  ammoReserve: 20
   reloadTime: 1.7
   isReloading: 0
   ammoType: {fileID: 11400000, guid: 5a386ac3f80efa14b99712bb02d94ec1, type: 2}
@@ -355,7 +356,8 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 0
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

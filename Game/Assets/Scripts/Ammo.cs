@@ -4,11 +4,4 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Weapon/Ammo")]
 public class Ammo : ScriptableObject
 {
-    public int totalAmmo;
-    public int startAmmo;
-
-    void OnEnable()
-    {
-        totalAmmo = startAmmo;
-    }
 }

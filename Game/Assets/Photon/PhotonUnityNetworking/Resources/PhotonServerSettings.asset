@@ -40,6 +40,11 @@ MonoBehaviour:
   - GetPickUpData
   - RaycastPickUpGun
   - Shoot
+  - DropWeapon
+  - SyncWeapon
+  - ClaimWeapon
+  - StartReloadCoroutine
+  - Reload
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

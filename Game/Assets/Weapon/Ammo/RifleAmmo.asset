@@ -12,5 +12,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faac410e9911d2843a5e9777ce0c9028, type: 3}
   m_Name: RifleAmmo
   m_EditorClassIdentifier: 
-  totalAmmo: 240
-  startAmmo: 300

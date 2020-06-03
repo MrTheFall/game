@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using ExitGames.Client.Photon;
+using System.Net.Cache;
+using Photon.Pun.Demo.Procedural;
 
 public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
 {
@@ -24,46 +26,56 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && photonView.IsMine)
         {
             photonView.RPC("RaycastPickUpGun", RpcTarget.All);
         }
 
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G) && photonView.IsMine)
         {
-            DropWeapon();
-        }
+            photonView.RPC("DropWeapon", RpcTarget.All);
 
+        }
     }
 
 
     [PunRPC]
     public RaycastHit RaycastPickUpGun()// Returns the RayCast Hit so that other scripts will know what was hit
     {
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.red, pickupRange);
-        if (Physics.Raycast(ray, out hit, pickupRange, pickupLayerMask) && (Recoil_Rotation.transform.childCount == 0))
+        if (photonView.IsMine)
         {
-            weapon = hit.transform.gameObject;
-            weapon.transform.SetParent(Recoil_Rotation);
-            weapon.transform.position = Recoil_Rotation.transform.position;
-            weapon.transform.rotation = Recoil_Rotation.transform.rotation;
-            myWeapon = weapon.GetComponent<Weapon>();
-            myWeapon.HandleUI();
-            myWeapon.WeaponIsActive(true);
-            weapon.GetComponent<Weapon>().RecoilPositionTransform = Recoil_Position;
-            weapon.GetComponent<PointGun>().RecoilPositionTransform = Recoil_Position;
-            weapon.GetComponent<Weapon>().RecoilRotationTransform = Recoil_Rotation;
-            weapon.GetComponent<PointGun>().RecoilRotationTransform = Recoil_Rotation;
-            weapon.GetComponent<Weapon>().RecoilCamTransform = Recoil_Camera;
-            weapon.GetComponent<PointGun>().RecoilCamTransform = Recoil_Camera;
-            weapon.GetComponent<Weapon>().cam = cam;
-            weapon.GetComponent<PointGun>().cam = cam;
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.red, pickupRange);
+            if (Physics.Raycast(ray, out hit, pickupRange, pickupLayerMask) && (Recoil_Rotation.transform.childCount == 0))
+            {
+                photonView.RPC("ClaimWeapon", RpcTarget.All, hit.collider.GetComponent<PhotonView>().ViewID);
+            }
         }
-        return hit;
+        return new RaycastHit();
     }
 
+    [PunRPC]
+    void ClaimWeapon(int id)
+    {
+        weapon = PhotonView.Find(id).gameObject;
+        weapon.transform.SetParent(Recoil_Rotation);
+        weapon.transform.position = Recoil_Rotation.transform.position;
+        weapon.transform.rotation = Recoil_Rotation.transform.rotation;
+        myWeapon = weapon.GetComponent<Weapon>();
+        myWeapon.HandleUI();
+        myWeapon.WeaponIsActive(true);
+        weapon.GetComponent<Weapon>().RecoilPositionTransform = Recoil_Position;
+        weapon.GetComponent<PointGun>().RecoilPositionTransform = Recoil_Position;
+        weapon.GetComponent<Weapon>().RecoilRotationTransform = Recoil_Rotation;
+        weapon.GetComponent<PointGun>().RecoilRotationTransform = Recoil_Rotation;
+        weapon.GetComponent<Weapon>().RecoilCamTransform = Recoil_Camera;
+        weapon.GetComponent<PointGun>().RecoilCamTransform = Recoil_Camera;
+        weapon.GetComponent<Weapon>().cam = cam;
+        weapon.GetComponent<PointGun>().cam = cam;
+    }
+
+    [PunRPC]
     public void DropWeapon()
     {
         if (weapon != null) // Checking if we are currently holding a weapon, before we drop it

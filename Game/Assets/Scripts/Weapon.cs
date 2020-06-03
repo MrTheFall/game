@@ -10,6 +10,7 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
     [Header("General Info")]
     public int ammo;// How much is currently in the weapon
     public int ammoCanHold;// How much can this weapon hold at a time (max amount)
+    public int ammoReserve;
     public float reloadTime; // Must be changed for every new gun
     public bool isReloading = false;
     public Ammo ammoType;
@@ -85,6 +86,7 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
 
     private void Update()
     {
+        if (!gameObject.transform.root.GetComponent<PhotonView>().IsMine) return;
         if (!isActive)// Need this here. Otherwise every weapon in your game will fire when you press the LMB. 
         {
             return;
@@ -111,7 +113,7 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            StartCoroutine(Reload(reloadTime));
+            photonView.RPC("StartReloadCoroutine", RpcTarget.All);
             return;
         }
 
@@ -146,31 +148,39 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
 
     public void HandleUI()
     {
-        ui.Update_UI(ammo, ammoType.totalAmmo);
+        if (!gameObject.transform.root.GetComponent<PhotonView>().IsMine) return;   
+        ui.Update_UI(ammo, ammoReserve);
     }
 
+    [PunRPC]
+    public void StartReloadCoroutine()
+    {
+        StartCoroutine(Reload(reloadTime));
+    }
+
+    [PunRPC]
     IEnumerator Reload(float reloadTime)
     {
         if (!isReloading)
         {
-            if (ammoType.totalAmmo > 0 && ammo != ammoCanHold)
+            if (ammoReserve > 0 && ammo != ammoCanHold)
             {
                 reloadAudio.Play();
                 isReloading = true;
                 yield return new WaitForSeconds(reloadTime);
                 int ammoNeeded = ammoCanHold - ammo;
 
-                if (ammoNeeded <= ammoType.totalAmmo)
+                if (ammoNeeded <= ammoReserve)
                 {
                     ammo += ammoNeeded;
-                    ammoType.totalAmmo -= ammoNeeded;
+                    ammoReserve -= ammoNeeded;
                 }
-                else if (ammoType.totalAmmo == 0)
+                else if (ammoReserve == 0)
                 { }
                 else
                 {
-                    ammo += ammoType.totalAmmo;
-                    ammoType.totalAmmo = 0;
+                    ammo += ammoReserve;
+                    ammoReserve = 0;
                 }
             }
             HandleUI();

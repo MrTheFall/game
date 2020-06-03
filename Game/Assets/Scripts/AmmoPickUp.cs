@@ -10,8 +10,15 @@ public class AmmoPickUp : MonoBehaviour
     {   
         if(other.tag == "Player")
         {
-            ammoType.totalAmmo += ammoAmount;
-            Destroy(gameObject);
+            if (other.transform.Find("Camera Holder/Hand/Recoil_Position/Recoil_Rotation").childCount != 0)   
+            {
+                if (other.transform.root.GetComponentInChildren<PointGun>().ammoType.name == ammoType.name)
+                {
+                    other.gameObject.transform.root.GetComponentInChildren<PointGun>().ammoReserve += ammoAmount;
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 }
+
