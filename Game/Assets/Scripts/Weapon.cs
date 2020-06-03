@@ -91,6 +91,11 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
 
     private void Update()
     {
+        if (!isEquipped)
+        {
+            DropRotation();
+        }
+
         if (!gameObject.transform.root.GetComponent<PhotonView>().IsMine) return;
         if (!isActive)// Need this here. Otherwise every weapon in your game will fire when you press the LMB. 
         {
@@ -228,6 +233,11 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
         }
 
         return hit;
+    }
+
+    public void DropRotation()
+    {
+        gameObject.transform.Rotate(0, 1, 0); 
     }
 
 }

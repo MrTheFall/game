@@ -85,7 +85,7 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
         if (weapon != null) // Checking if we are currently holding a weapon, before we drop it
         {
             weapon.GetComponent<PointGun>().isEquipped = false;
-            Vector3 pos = new Vector3(Ground_Check.transform.position.x, Ground_Check.transform.position.y + 0.5f, Ground_Check.transform.position.z);
+            Vector3 pos = new Vector3(Ground_Check.transform.position.x, Ground_Check.transform.position.y + 1f, Ground_Check.transform.position.z);
             weapon.transform.rotation = Ground_Check.transform.rotation;
             weapon.transform.parent = null;
             weapon.transform.position = pos;

@@ -559,10 +559,12 @@ MonoBehaviour:
   RifleName: Rifle
   PistolName: Pistol
   DeagleName: Deagle
+  M4A1Name: M4A1
   Recoil_Rotation: {fileID: 2687093689110031727}
   RifleBool: RifleZoomedIn
   PistolBool: PistolZoomedIn
   DeagleBool: DeagleZoomedIn
+  M4A1Bool: M4A1ZoomedIn
 --- !u!114 &1692282652190675142
 MonoBehaviour:
   m_ObjectHideFlags: 0
