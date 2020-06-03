@@ -248,11 +248,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2318127858345999481}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.903, z: 0}
+  m_LocalPosition: {x: 0, y: 0.831, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1027941605373742451}
-  - {fileID: 5947878845198167690}
   m_Father: {fileID: 4235529402601730842}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -309,11 +308,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3154346785177372933}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9213136978611533785}
+  - {fileID: 5947878845198167690}
   m_Father: {fileID: 6274269606059755995}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -472,7 +472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 8737589243385279262}
-  pickupRange: 200
+  pickupRange: 350
   pickupLayerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -521,7 +521,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 225276895027108820}
-  m_Father: {fileID: 6274269606059755995}
+  m_Father: {fileID: 1027941605373742451}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2918560370371355951
@@ -558,9 +558,11 @@ MonoBehaviour:
   animator: {fileID: 2918560370371355951}
   RifleName: Rifle
   PistolName: Pistol
+  DeagleName: Deagle
   Recoil_Rotation: {fileID: 2687093689110031727}
   RifleBool: RifleZoomedIn
   PistolBool: PistolZoomedIn
+  DeagleBool: DeagleZoomedIn
 --- !u!114 &1692282652190675142
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -318,8 +318,8 @@ MonoBehaviour:
   Recoil2: 50
   Recoil3: 35
   Recoil4: 50
-  RecoilRotation: {x: -10, y: 4, z: 6}
-  RecoilKickBack: {x: 0.015, y: 0.01, z: -0.075}
+  RecoilRotation: {x: -10, y: 4, z: 0}
+  RecoilKickBack: {x: 0.015, y: 0.01, z: 0}
   RecoilRotation_Aim: {x: 0, y: 0, z: 0}
   RecoilKickBack_Aim: {x: 0, y: 0, z: 0}
   CurrentRecoil1: {x: 0, y: 0, z: 0}
@@ -329,9 +329,9 @@ MonoBehaviour:
   RotationOutput: {x: 0, y: 0, z: 0}
   RecoilCamTransform: {fileID: 0}
   camRotationSpeed: 6
-  camReturnSpeed: 15
-  camRecoilRotation: {x: 5, y: 3, z: 0.5}
-  camRecoilRotationAiming: {x: 3, y: 1, z: 0.5}
+  camReturnSpeed: 5
+  camRecoilRotation: {x: 3, y: 2, z: 0}
+  camRecoilRotationAiming: {x: 2, y: 1, z: 0}
   isAimed: 0
   shootAudio: {fileID: 103835301998267490}
   reloadAudio: {fileID: 103835301998267512}

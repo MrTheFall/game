@@ -80,6 +80,7 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
     private Weapon_UI ui;
 
     private bool isActive = false;
+    private LayerMask bulletGoThrough = ~(1 << 10);
 
 
     private void Start()
@@ -221,7 +222,7 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if(Physics.Raycast(ray, out hit, range))
+        if(Physics.Raycast(ray, out hit, range, bulletGoThrough))
         {
             return hit;
         }
