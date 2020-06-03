@@ -823,7 +823,7 @@ MonoBehaviour:
   reloadTime: 1.7
   isReloading: 0
   ammoType: {fileID: 11400000, guid: 5a386ac3f80efa14b99712bb02d94ec1, type: 2}
-  damage: 10
+  damage: 30
   range: 30
   fireCoolDown: 0.3
   RecoilPositionTransform: {fileID: 0}

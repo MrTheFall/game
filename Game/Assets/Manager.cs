@@ -8,7 +8,7 @@ namespace FPSGame
     public class Manager : MonoBehaviour
     {
         public string player_prefab;
-        public Transform spawnpoint;
+        public Transform[] spawnpoints;
 
         private void Start()
         {
@@ -17,7 +17,8 @@ namespace FPSGame
 
         public void Spawn()
         {
-            PhotonNetwork.Instantiate(player_prefab, spawnpoint.position, spawnpoint.rotation);
+            Transform t_spawn = spawnpoints[Random.Range(0, spawnpoints.Length)]; 
+            PhotonNetwork.Instantiate(player_prefab, t_spawn.position, t_spawn.rotation);
         }
     }
 }

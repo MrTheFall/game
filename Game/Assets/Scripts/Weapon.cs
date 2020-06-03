@@ -15,7 +15,7 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
     public bool isReloading = false;
     public Ammo ammoType;
 
-    public float damage;
+    public int damage;
     public float range;
 
     public float fireCoolDown;// How long should this weapon wait before it can shoot again
@@ -80,7 +80,7 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
     private Weapon_UI ui;
 
     private bool isActive = false;
-    private LayerMask bulletGoThrough = ~(1 << 10);
+    private LayerMask bulletGoThrough = ~((1 << 10) | (1 << 8));
 
 
     private void Start()

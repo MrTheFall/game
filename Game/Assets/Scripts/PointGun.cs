@@ -35,7 +35,7 @@ public class PointGun : Weapon// Inherit everything from the "Weapon" script
                         //if we hit enemy player
                         if (hit.collider.gameObject.layer == 11)
                         {
-                            //RPC with command to damage enemy player
+                            hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage);
                         }
                     }
                 }
@@ -50,4 +50,6 @@ public class PointGun : Weapon// Inherit everything from the "Weapon" script
         newHole.transform.LookAt(hitPoint + hitNormal);
         Destroy(newHole, 5f);
     }
+
+
 }
