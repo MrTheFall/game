@@ -49,7 +49,10 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
             Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.red, pickupRange);
             if (Physics.Raycast(ray, out hit, pickupRange, pickupLayerMask) && (Recoil_Rotation.transform.childCount == 0))
             {
-                photonView.RPC("ClaimWeapon", RpcTarget.All, hit.collider.GetComponent<PhotonView>().ViewID);
+                if (!hit.collider.GetComponent<PointGun>().isEquipped)
+                {
+                    photonView.RPC("ClaimWeapon", RpcTarget.All, hit.collider.GetComponent<PhotonView>().ViewID);
+                }
             }
         }
         return new RaycastHit();
@@ -59,6 +62,7 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
     void ClaimWeapon(int id)
     {
         weapon = PhotonView.Find(id).gameObject;
+        weapon.GetComponent<PointGun>().isEquipped = true;
         weapon.transform.SetParent(Recoil_Rotation);
         weapon.transform.position = Recoil_Rotation.transform.position;
         weapon.transform.rotation = Recoil_Rotation.transform.rotation;
@@ -80,6 +84,7 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
     {
         if (weapon != null) // Checking if we are currently holding a weapon, before we drop it
         {
+            weapon.GetComponent<PointGun>().isEquipped = false;
             Vector3 pos = new Vector3(Ground_Check.transform.position.x, Ground_Check.transform.position.y + 0.5f, Ground_Check.transform.position.z);
             weapon.transform.rotation = Ground_Check.transform.rotation;
             weapon.transform.parent = null;

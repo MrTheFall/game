@@ -74,9 +74,13 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
     [Header("Raycast Camera")]
     public Camera cam;// The camera used for raycasting
 
+    [Header("Checks")]
+    public bool isEquipped = false;
+
     private Weapon_UI ui;
 
     private bool isActive = false;
+
 
     private void Start()
     {

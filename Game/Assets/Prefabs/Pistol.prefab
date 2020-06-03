@@ -337,6 +337,7 @@ MonoBehaviour:
   reloadAudio: {fileID: 5369217401982882076}
   customCrossHair: {fileID: 0}
   cam: {fileID: 0}
+  isEquipped: 0
   bulletholePrefab: {fileID: 1773756924326667196, guid: bacc046bc00af5c4c9d099797423ac15,
     type: 3}
 --- !u!114 &-2689224959389872903

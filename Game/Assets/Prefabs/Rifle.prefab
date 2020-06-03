@@ -330,13 +330,14 @@ MonoBehaviour:
   RecoilCamTransform: {fileID: 0}
   camRotationSpeed: 6
   camReturnSpeed: 15
-  camRecoilRotation: {x: 5, y: 5, z: 5}
-  camRecoilRotationAiming: {x: 2, y: 2, z: 2}
+  camRecoilRotation: {x: 5, y: 3, z: 0.5}
+  camRecoilRotationAiming: {x: 3, y: 1, z: 0.5}
   isAimed: 0
   shootAudio: {fileID: 103835301998267490}
   reloadAudio: {fileID: 103835301998267512}
   customCrossHair: {fileID: 0}
   cam: {fileID: 0}
+  isEquipped: 0
   bulletholePrefab: {fileID: 1773756924326667196, guid: bacc046bc00af5c4c9d099797423ac15,
     type: 3}
 --- !u!114 &-1559762994522770429
