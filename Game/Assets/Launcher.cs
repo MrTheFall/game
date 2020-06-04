@@ -16,7 +16,6 @@ namespace FPSGame
         public override void OnConnectedToMaster()
         {
             Debug.Log("Joined");
-            Join();
             base.OnConnectedToMaster();
         }
 
