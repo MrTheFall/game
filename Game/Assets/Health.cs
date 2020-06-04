@@ -54,7 +54,6 @@ public class Health : MonoBehaviourPunCallbacks
             Debug.LogError(current_health);
             if (current_health <= 0)
             {
-                photonView.RPC("DropWeapon", RpcTarget.All);
                 manager.Spawn();
                 PhotonNetwork.Destroy(gameObject);
             }

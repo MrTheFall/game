@@ -24,6 +24,8 @@ public class PointGun : Weapon// Inherit everything from the "Weapon" script
 
                 if (gameObject.transform.root.GetComponent<PhotonView>().IsMine)
                 {
+                    Debug.LogError(hit.transform.gameObject.layer);
+
                     if (hit.transform.gameObject.layer != 11 && hit.transform.gameObject.layer != 12)
                     {
                         photonView.RPC("spawnBulletHole", RpcTarget.All, hit.point, hit.normal, Quaternion.identity);
