@@ -9,6 +9,11 @@ public class PointGun : Weapon// Inherit everything from the "Weapon" script
     [Header("Textures")]
     public GameObject bulletholePrefab;
 
+    private void Awake()
+    {
+        if(gameObject.transform.Find("Default Arms") != null) HandsDisable();
+    }
+
     [PunRPC]
     public override void Shoot()// Overriding the Shoot() method from the "Weapon" script
     {
@@ -54,5 +59,14 @@ public class PointGun : Weapon// Inherit everything from the "Weapon" script
         Destroy(newHole, 5f);
     }
 
+    public void HandsEnable()
+    {
+        gameObject.transform.Find("Default Arms").gameObject.SetActive(true);
+    }
+
+    public void HandsDisable()
+    {
+        gameObject.transform.Find("Default Arms").gameObject.SetActive(false);
+    }
 
 }
