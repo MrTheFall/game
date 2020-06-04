@@ -81,6 +81,7 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
 
     private bool isActive = false;
     private LayerMask bulletGoThrough = ~((1 << 10) | (1 << 8));
+    public LayerMask canSpawnBulletHole = ~((1 << 8) | (1 << 11));
 
 
     private void Start()

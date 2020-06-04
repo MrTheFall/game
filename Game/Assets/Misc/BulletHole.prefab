@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5855828399420052487}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BulletHole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 2749403710813278734}
   - component: {fileID: 4751051651115526845}
   - component: {fileID: 7942611889885840965}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -24,11 +24,16 @@ public class PointGun : Weapon// Inherit everything from the "Weapon" script
 
                 if (gameObject.transform.root.GetComponent<PhotonView>().IsMine)
                 {
-                    GameObject newHole = Instantiate(bulletholePrefab, hit.point + hit.normal * 0.001f, Quaternion.identity) as GameObject;
-                    newHole.transform.LookAt(hit.point + hit.normal);
-                    Destroy(newHole, 5f);
+                    Debug.LogError(hit.transform.gameObject.layer);
 
-                    photonView.RPC("spawnBulletHole", RpcTarget.All, hit.point, hit.normal, Quaternion.identity);
+                    if (hit.transform.gameObject.layer != 11 && hit.transform.gameObject.layer != 12)
+                    {
+                        photonView.RPC("spawnBulletHole", RpcTarget.All, hit.point, hit.normal, Quaternion.identity);
+                        GameObject newHole = Instantiate(bulletholePrefab, hit.point + hit.normal * 0.001f, Quaternion.identity) as GameObject;
+                        newHole.transform.LookAt(hit.point + hit.normal);
+                        Destroy(newHole, 5f);
+                    }
+
 
                     if (gameObject.transform.root.GetComponent<PhotonView>().IsMine)
                     {

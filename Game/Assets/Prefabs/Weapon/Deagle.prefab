@@ -854,6 +854,9 @@ MonoBehaviour:
   customCrossHair: {fileID: 0}
   cam: {fileID: 0}
   isEquipped: 0
+  canSpawnBulletHole:
+    serializedVersion: 2
+    m_Bits: 5687
   bulletholePrefab: {fileID: 1773756924326667196, guid: bacc046bc00af5c4c9d099797423ac15,
     type: 3}
 --- !u!65 &7026195762269858978
