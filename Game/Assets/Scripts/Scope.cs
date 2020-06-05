@@ -5,10 +5,10 @@ using Photon.Pun;
 public class Scope : MonoBehaviourPunCallbacks
 {
     public Animator animator;
-    public string RifleName = "Rifle";
-    public string PistolName = "Pistol";
-    public string DeagleName = "Deagle";
-    public string M4A1Name = "M4A1";
+    public string RifleName;
+    public string PistolName;
+    public string DeagleName;
+    public string M4A1Name;
     public GameObject Recoil_Rotation;
 
     public string RifleBool = "RifleZoomedIn";

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Com.Kawaiisun.SimpleHostile;
 
 public class PlayerMovement : MonoBehaviourPunCallbacks
 {
@@ -23,13 +24,26 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     void Start()
     {
         if (!photonView.IsMine) gameObject.layer = 11;
-        
+        else
+        {
+            gameObject.transform.Find("Default Armless Player").gameObject.SetActive(false);
+            gameObject.transform.Find("Default Arms").gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         if (!photonView.IsMine) return;
+
+        bool pause = Input.GetKeyDown(KeyCode.Escape);
+
+        if (pause)
+        {
+            GameObject.Find("Pause").GetComponent<Pause>().TogglePause();
+        }
+
+        if (Pause.paused) return;
 
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance);

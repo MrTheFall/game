@@ -95,6 +95,7 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
             weapon.transform.position = pos;
             myWeapon.WeaponIsActive(false);
             weapon = null;
+            if(photonView.IsMine) gameObject.transform.Find("Default Arms").gameObject.SetActive(false);
         }
     }
 }

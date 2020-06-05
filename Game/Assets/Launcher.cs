@@ -36,10 +36,12 @@ namespace FPSGame
             Debug.Log("Trying to connect...");
             PhotonNetwork.GameVersion = "0.0.0";
             PhotonNetwork.ConnectUsingSettings();
+            PhotonNetwork.AutomaticallySyncScene = true;
         }
 
         public void Join()
         {
+            PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.JoinRandomRoom();
             Debug.Log("Joined Random Room");
         }

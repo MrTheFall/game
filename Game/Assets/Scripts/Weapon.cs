@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Com.Kawaiisun.SimpleHostile;
 
 [RequireComponent(typeof(AudioSource))]
 public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class. 
@@ -96,6 +97,9 @@ public abstract class Weapon : MonoBehaviourPunCallbacks // An abstract class.
         }
 
         if (!gameObject.transform.root.GetComponent<PhotonView>().IsMine) return;
+
+        if (Pause.paused) return;
+
         if (!isActive)// Need this here. Otherwise every weapon in your game will fire when you press the LMB. 
         {
             return;

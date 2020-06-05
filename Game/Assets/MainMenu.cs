@@ -1,4 +1,5 @@
-﻿using FPSGame;
+﻿using Com.Kawaiisun.SimpleHostile;
+using FPSGame;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,13 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
     public Launcher launcher;
+
+    private void Start()
+    {
+        Pause.paused = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
 
     public void JoinMatch()
     {
