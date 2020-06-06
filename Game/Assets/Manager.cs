@@ -26,7 +26,15 @@ namespace FPSGame
         }
     }
 
-    public class Manager : MonoBehaviour, IOnEventCallback
+    public enum GameState
+    {
+        Waiting = 0,
+        Starting = 1,
+        Playing = 2,
+        Ending = 3
+    }
+
+    public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         public string player_prefab;
         public Transform[] spawnpoints;
@@ -37,6 +45,14 @@ namespace FPSGame
         private Text ui_mykills;
         private Text ui_mydeaths;
         private Transform ui_leaderboard;
+        private Transform ui_endgame;
+
+
+        public int mainmenu = 0;
+        public int killcount = 3;
+
+        public GameObject mapcam;
+        private GameState state = GameState.Playing;
 
         public enum EventCodes : byte
         {
@@ -47,8 +63,10 @@ namespace FPSGame
 
         private void Update()
         {
-            if(Input.GetKeyDown(KeyCode.Tab)) Leaderboard(ui_leaderboard);
-            if(Input.GetKeyUp(KeyCode.Tab)) ui_leaderboard.gameObject.SetActive(false);
+            if (state == GameState.Ending) return;
+
+            if (Input.GetKeyDown(KeyCode.Tab)) Leaderboard(ui_leaderboard);
+            if (Input.GetKeyUp(KeyCode.Tab)) ui_leaderboard.gameObject.SetActive(false);
         }
 
         private void OnEnable()
@@ -63,10 +81,18 @@ namespace FPSGame
 
         private void Start()
         {
+            mapcam.SetActive(false);
+
             ValidateConnection();
             InitializeUI();
             NewPlayer_S(Launcher.myProfile);
             Spawn();
+        }
+
+        public override void OnLeftRoom()
+        {
+            base.OnLeftRoom();
+            SceneManager.LoadScene(mainmenu);
         }
 
         public void Spawn()
@@ -80,13 +106,14 @@ namespace FPSGame
             ui_mykills = GameObject.Find("HUD/Stats/Kills").GetComponent<Text>();
             ui_mydeaths = GameObject.Find("HUD/Stats/Deaths").GetComponent<Text>();
             ui_leaderboard = GameObject.Find("HUD").transform.Find("Leaderboard").transform;
+            ui_endgame = GameObject.Find("HUD").transform.Find("End Game").transform;
 
             RefreshMyStats();
         }
 
         private void RefreshMyStats()
         {
-            if(playerInfo.Count > myind)
+            if (playerInfo.Count > myind)
             {
                 ui_mykills.text = $"K: {playerInfo[myind].kills}";
                 ui_mydeaths.text = $"D: {playerInfo[myind].deaths}";
@@ -108,7 +135,7 @@ namespace FPSGame
             }
 
             // set details
-    
+
             p_lb.Find("Header/Map").GetComponent<Text>().text = "NULL";
 
 
@@ -169,8 +196,52 @@ namespace FPSGame
         private void ValidateConnection()
         {
             if (PhotonNetwork.IsConnected) return;
-            SceneManager.LoadScene(0);
-        } 
+            SceneManager.LoadScene(mainmenu);
+        }
+
+        private void StateCheck()
+        {
+            if (state == GameState.Ending) EndGame();
+        }
+
+        private void ScoreCheck()
+        {
+            bool detectwin = false;
+
+            foreach (PlayerInfo a in playerInfo)
+            {
+                if (a.kills >= killcount)
+                {
+                    detectwin = true;
+                    break;
+                }
+            }
+            if (detectwin)
+            {
+                if (PhotonNetwork.IsMasterClient && state != GameState.Ending)
+                {
+                    UpdatePlayers_S((int)GameState.Ending, playerInfo);
+                }
+            }
+        }
+
+        private void EndGame()
+        {
+            state = GameState.Ending;
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.DestroyAll();
+                PhotonNetwork.CurrentRoom.IsVisible = false;
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+            }
+
+            mapcam.SetActive(true);
+            ui_endgame.gameObject.SetActive(true);
+            Leaderboard(ui_endgame.Find("Leaderboard"));
+
+            StartCoroutine(End(6f));
+        }
 
         public void OnEvent(EventData photonEvent)
         {
@@ -220,13 +291,14 @@ namespace FPSGame
 
             playerInfo.Add(p);
 
-            UpdatePlayers_S(playerInfo);
+            UpdatePlayers_S((int)state, playerInfo);
         }
 
-        public void UpdatePlayers_S(List<PlayerInfo> info)
+        public void UpdatePlayers_S(int state, List<PlayerInfo> info)
         {
-            object[] package = new object[info.Count];
+            object[] package = new object[info.Count + 1];
 
+            package[0] = state;
             for (int i = 0; i < info.Count; i++)
             {
                 object[] piece = new object[4];
@@ -236,7 +308,7 @@ namespace FPSGame
                 piece[2] = info[i].kills;
                 piece[3] = info[i].deaths;
 
-                package[i] = piece;
+                package[i + 1] = piece;
             }
 
             PhotonNetwork.RaiseEvent(
@@ -248,9 +320,10 @@ namespace FPSGame
         }
         public void UpdatePlayers_R(object[] data)
         {
+            state = (GameState)data[0];
             playerInfo = new List<PlayerInfo>();
 
-            for (int i = 0; i < data.Length; i++)
+            for (int i = 1; i < data.Length; i++)
             {
                 object[] extract = (object[])data[i];
 
@@ -262,8 +335,9 @@ namespace FPSGame
                     (short)extract[3]
                     );
                 playerInfo.Add(p);
-                if (PhotonNetwork.LocalPlayer.ActorNumber == p.actor) myind = i;
+                if (PhotonNetwork.LocalPlayer.ActorNumber == p.actor) myind = i - 1;
             }
+            StateCheck();
         }
         public void ChangeStat_S(int actor, byte stat, byte amt)
         {
@@ -307,6 +381,15 @@ namespace FPSGame
                 }
             }
 
+            ScoreCheck();
+        }
+
+        private IEnumerator End(float sec)
+        {
+            yield return new WaitForSeconds(sec);
+
+            PhotonNetwork.AutomaticallySyncScene = false;
+            PhotonNetwork.LeaveRoom();
         }
     }
 }
