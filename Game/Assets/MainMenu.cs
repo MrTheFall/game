@@ -1,5 +1,4 @@
-﻿using Com.Kawaiisun.SimpleHostile;
-using FPSGame;
+﻿using FPSGame;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

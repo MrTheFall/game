@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using Com.Kawaiisun.SimpleHostile;
 
 public class PlayerMovement : MonoBehaviourPunCallbacks
 {

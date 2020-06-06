@@ -75,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 3064212143041752343, guid: c333722ee2130c44c83bc75df59b0422,
         type: 3}
       propertyPath: m_Name
-      value: Deagle Variant
+      value: Deagle
       objectReference: {fileID: 0}
     - target: {fileID: 6047708125636743356, guid: c333722ee2130c44c83bc75df59b0422,
         type: 3}

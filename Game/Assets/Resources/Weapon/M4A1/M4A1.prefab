@@ -217,6 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5852fdb01f74b145a658e10d2b9112d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletholePrefab: {fileID: 1773756924326667196, guid: bacc046bc00af5c4c9d099797423ac15,
+    type: 3}
   ammo: 30
   ammoCanHold: 30
   ammoReserve: 300
@@ -257,9 +259,7 @@ MonoBehaviour:
   canSpawnBulletHole:
     serializedVersion: 2
     m_Bits: 5687
-  bulletholePrefab: {fileID: 1773756924326667196, guid: bacc046bc00af5c4c9d099797423ac15,
-    type: 3}
---- !u!114 &8964967132072528136
+--- !u!114 &4774338593773692897
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -565,7 +565,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 09ba5cf2846fbb146b7e3bc5b7028f12,
         type: 3}
       propertyPath: m_Name
-      value: M4A1_Hands
+      value: M4A1
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 09ba5cf2846fbb146b7e3bc5b7028f12,
         type: 3}

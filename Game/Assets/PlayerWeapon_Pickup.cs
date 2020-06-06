@@ -7,6 +7,7 @@ using Photon.Pun;
 using ExitGames.Client.Photon;
 using System.Net.Cache;
 using Photon.Pun.Demo.Procedural;
+using System.Drawing;
 
 public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
 {
@@ -18,10 +19,19 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
     public Transform Recoil_Camera;
     public GameObject Ground_Check;
     public GameObject weapon;
-    private Weapon myWeapon;
+    private PointGun myWeapon;
 
+    [Space]
+    public GameObject StandartWeapon;
 
     // Start is called before the first frame update
+    private void Start()
+    {
+        GameObject t_weapon = (GameObject)PhotonNetwork.Instantiate("Weapon/" + StandartWeapon.name + "/" + StandartWeapon.name, gameObject.transform.position, gameObject.transform.rotation);
+        t_weapon.name = StandartWeapon.name;
+        photonView.RPC("ClaimWeapon", RpcTarget.All, t_weapon.GetPhotonView().ViewID);
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -46,7 +56,7 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.red, pickupRange);
+            Debug.DrawRay(cam.transform.position, cam.transform.forward, UnityEngine.Color.red, pickupRange);
             if (Physics.Raycast(ray, out hit, pickupRange, pickupLayerMask) && (Recoil_Rotation.transform.childCount == 0))
             {
                 if (!hit.collider.GetComponent<PointGun>().isEquipped)
@@ -67,18 +77,15 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
         weapon.transform.SetParent(Recoil_Rotation);
         weapon.transform.position = Recoil_Rotation.transform.position;
         weapon.transform.rotation = Recoil_Rotation.transform.rotation;
-        myWeapon = weapon.GetComponent<Weapon>();
+        myWeapon = weapon.GetComponent<PointGun>();
+        myWeapon.ui = FindObjectOfType<Weapon_UI>();
         myWeapon.HandleUI();
+        myWeapon.RecoilPositionTransform = Recoil_Position ;
+        myWeapon.RecoilRotationTransform = Recoil_Rotation;
         myWeapon.WeaponIsActive(true);
-        weapon.GetComponent<Weapon>().RecoilPositionTransform = Recoil_Position;
-        weapon.GetComponent<PointGun>().RecoilPositionTransform = Recoil_Position;
-        weapon.GetComponent<Weapon>().RecoilRotationTransform = Recoil_Rotation;
-        weapon.GetComponent<PointGun>().RecoilRotationTransform = Recoil_Rotation;
-        weapon.GetComponent<Weapon>().RecoilCamTransform = Recoil_Camera;
-        weapon.GetComponent<PointGun>().RecoilCamTransform = Recoil_Camera;
-        weapon.GetComponent<Weapon>().cam = cam;
-        weapon.GetComponent<PointGun>().cam = cam;
-        weapon.GetComponent<PointGun>().HandsEnable();
+        myWeapon.RecoilCamTransform = Recoil_Camera;
+        myWeapon.cam = cam;
+        myWeapon.HandsEnable();
     }
 
     [PunRPC]

@@ -463,6 +463,8 @@ MonoBehaviour:
   Recoil_Camera: {fileID: 1027941605373742451}
   Ground_Check: {fileID: 3608659442676131868}
   weapon: {fileID: 0}
+  StandartWeapon: {fileID: 8290606965784738147, guid: 8ad6cd96e84996140bbe5f38c655efaa,
+    type: 3}
 --- !u!81 &2604123567956671355
 AudioListener:
   m_ObjectHideFlags: 0
@@ -589,8 +591,8 @@ MonoBehaviour:
   animator: {fileID: 2918560370371355951}
   RifleName: Rifle
   PistolName: Pistol
-  DeagleName: Deagle_Hands
-  M4A1Name: M4A1_Hands
+  DeagleName: Deagle
+  M4A1Name: M4A1
   Recoil_Rotation: {fileID: 2687093689110031727}
   RifleBool: RifleZoomedIn
   PistolBool: PistolZoomedIn

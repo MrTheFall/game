@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using TMPro;
-using Com.Kawaiisun.SimpleHostile;
 
 public class MouseLook : MonoBehaviourPunCallbacks
 {
