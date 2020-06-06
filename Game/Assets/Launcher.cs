@@ -8,9 +8,26 @@ using UnityEngine.UI;
 
 namespace FPSGame
 {
+
+    [System.Serializable]
+    public class ProfileData
+    {
+        public string username;
+
+        public ProfileData()
+        {
+            this.username = "";
+        }
+
+        public ProfileData(string u)
+        {
+            this.username = u;
+        }
+    }
     public class Launcher : MonoBehaviourPunCallbacks
     {
         public InputField usernameField;
+        public static ProfileData myProfile = new ProfileData();
         public InputField roomnameField;
         public Text mapValue;
         public Text modeValue;
@@ -146,14 +163,29 @@ namespace FPSGame
             base.OnRoomListUpdate(roomList);
         }
 
+        private void VerifyUsername()
+        {
+            if (string.IsNullOrEmpty(usernameField.text))
+            {
+                myProfile.username = "Player_" + Random.Range(100, 1000);
+            }
+            else
+            {
+                myProfile.username = usernameField.text;
+            }
+        }
+
         public void JoinRoom(Transform p_button)
         {
+            VerifyUsername();
             string t_roomName = p_button.Find("Name").GetComponent<Text>().text;
             PhotonNetwork.JoinRoom(t_roomName);
         }
 
         public void StartGame()
         {
+            VerifyUsername();
+
             if(PhotonNetwork.CurrentRoom.PlayerCount == 1)
             {
                 Debug.Log("Level Loaded");

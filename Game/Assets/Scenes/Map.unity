@@ -495,6 +495,7 @@ MonoBehaviour:
   - {fileID: 208140355}
   - {fileID: 2046411711}
   - {fileID: 1483246234}
+  myind: 0
 --- !u!4 &891811595
 Transform:
   m_ObjectHideFlags: 0

@@ -31,13 +31,13 @@ public class Health : MonoBehaviourPunCallbacks
         {
             refreshHealthBar();
         }
-        if (Input.GetKeyDown(KeyCode.U)) TakeDamage(50);
+        if (Input.GetKeyDown(KeyCode.U)) TakeDamage(50, -1);
     }
 
     [PunRPC]
-    public void TakeDamageRPC(int damage)
+    public void TakeDamageRPC(int damage, int p_actor)
     {
-        TakeDamage(damage);
+        TakeDamage(damage, p_actor);
     }
 
     public void refreshHealthBar()
@@ -46,7 +46,7 @@ public class Health : MonoBehaviourPunCallbacks
         ui_healthbar.localScale = Vector3.Lerp(ui_healthbar.localScale, new Vector3(t_health_ratio, 1, 1), Time.deltaTime * 8f);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, int p_actor)
     {
         if (photonView.IsMine)
         {
@@ -56,6 +56,11 @@ public class Health : MonoBehaviourPunCallbacks
             {
                 photonView.RPC("DropWeapon", RpcTarget.All);
                 manager.Spawn();
+                manager.ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 1, 1);
+                if (p_actor >= 0)
+                {
+                    manager.ChangeStat_S(p_actor, 0, 1);
+                }
                 PhotonNetwork.Destroy(gameObject);
             }
         }

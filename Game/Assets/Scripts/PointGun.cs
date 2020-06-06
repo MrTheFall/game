@@ -43,7 +43,7 @@ public class PointGun : Weapon// Inherit everything from the "Weapon" script
                         //if we hit enemy player
                         if (hit.collider.gameObject.layer == 11)
                         {
-                            hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage);
+                            hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage, PhotonNetwork.LocalPlayer.ActorNumber);
                         }
                     }
                 }
