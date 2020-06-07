@@ -31,7 +31,7 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
         {
             GameObject t_weapon = (GameObject)PhotonNetwork.Instantiate("Weapon/" + StandartWeapon.name + "/" + StandartWeapon.name, gameObject.transform.position, gameObject.transform.rotation);
             t_weapon.name = StandartWeapon.name;
-            photonView.RPC("ClaimWeapon", RpcTarget.All, t_weapon.GetPhotonView().ViewID);
+            photonView.RPC("ClaimWeapon", RpcTarget.AllBuffered, t_weapon.GetPhotonView().ViewID);
         }
     }
 
@@ -74,7 +74,7 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
     void ClaimWeapon(int id)
     {
         gameObject.transform.Find("Default Arms").gameObject.SetActive(false);
-        weapon = PhotonView.Find(id).gameObject.transform.root.gameObject;
+        weapon = PhotonView.Find(id).gameObject;
         weapon.GetComponent<PointGun>().isEquipped = true;
         weapon.transform.SetParent(Recoil_Rotation);
         weapon.transform.position = Recoil_Rotation.transform.position;
