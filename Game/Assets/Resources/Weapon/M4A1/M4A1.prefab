@@ -256,10 +256,11 @@ MonoBehaviour:
   customCrossHair: {fileID: 0}
   cam: {fileID: 0}
   isEquipped: 0
+  ui: {fileID: 0}
   canSpawnBulletHole:
     serializedVersion: 2
     m_Bits: 5687
---- !u!114 &4774338593773692897
+--- !u!114 &5080690660054179334
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -276,8 +277,7 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 0
   OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
+  ObservedComponents: []
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

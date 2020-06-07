@@ -74,7 +74,7 @@ public class Scope : MonoBehaviourPunCallbacks
             }
 
 
-            if (Input.GetKey(KeyCode.LeftShift) && Input.GetAxisRaw("Vertical") > 0 && !Input.GetMouseButton(1) && !Input.GetMouseButton(0))
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetAxisRaw("Vertical") > 0 && !Input.GetMouseButton(1) && !Input.GetMouseButton(0) && !Input.GetKey(KeyCode.LeftControl))
             {
                 animator.SetBool("isRunning", true);
             }

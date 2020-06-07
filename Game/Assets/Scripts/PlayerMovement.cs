@@ -12,13 +12,16 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public float normalSpeed = 7f;
     public float sprintSpeed = 10f;
     public bool isSprinting = false;
+    public bool isCrouching = false;
+    public bool isWalking = false;
 
     public float gravity = -39.24f;
     public float jumpHeight = 3;
 
     public Transform groundCheck;
     public float groundDistance = 0.1f;
-    
+
+    public Animator animator;
 
     Vector3 velocity;
     bool isGrounded;
@@ -38,51 +41,68 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (!photonView.IsMine) return;
-
-        bool pause = Input.GetKeyDown(KeyCode.Escape);
-
-        if (pause)
+        if (photonView.IsMine)
         {
-            GameObject.Find("Pause").GetComponent<Pause>().TogglePause();
+
+            bool pause = Input.GetKeyDown(KeyCode.Escape);
+
+            if (pause)
+            {
+                GameObject.Find("Pause").GetComponent<Pause>().TogglePause();
+            }
+
+            if (Pause.paused) return;
+
+
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance);
+
+            if (isGrounded && velocity.y < 0)
+            {
+                velocity.y = -2f;
+            }
+
+            float x = Input.GetAxis("Horizontal");
+            float z = Input.GetAxis("Vertical");
+
+            Vector3 move = transform.right * x + transform.forward * z;
+
+            controller.Move(move * speed * Time.deltaTime);
+
+
+            if (Input.GetButtonDown("Jump") && isGrounded)
+            {
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
+            }
+
+
+            velocity.y += gravity * Time.deltaTime;
+
+            controller.Move(velocity * Time.deltaTime);
+
+
+            isSprinting = Input.GetKey(KeyCode.LeftShift) && Input.GetAxisRaw("Vertical") > 0 && !Input.GetMouseButton(1) && !Input.GetMouseButton(0) && !isCrouching;
+            if (isSprinting) speed = sprintSpeed;
+            else speed = normalSpeed;
+
+            isCrouching = Input.GetKey(KeyCode.LeftControl);
+            if (isCrouching)
+            {
+                animator.SetBool("Crouching", true);
+                speed = normalSpeed / 2;
+            }
+            else
+            {
+                animator.SetBool("Crouching", false);
+                speed = normalSpeed;
+            }
+
+            isWalking = Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0;
+            if (isWalking)
+            {
+                animator.SetBool("Walking", true);
+            }
+            else animator.SetBool("Walking", false);
         }
-
-        if (Pause.paused) return;
-
-
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance);
-
-        if(isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
-
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-
-        Vector3 move = transform.right * x + transform.forward * z;
-
-        controller.Move(move * speed * Time.deltaTime);
-
-
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-
-        }
-        
-
-        velocity.y += gravity * Time.deltaTime;
-
-        controller.Move(velocity * Time.deltaTime);
-
-
-        isSprinting = Input.GetKey(KeyCode.LeftShift) && Input.GetAxisRaw("Vertical") > 0 && !Input.GetMouseButton(1) && !Input.GetMouseButton(0);
-
-        if (isSprinting) speed = sprintSpeed;
-        else speed = normalSpeed;
-
-
-
     }
 }
