@@ -183,29 +183,32 @@ public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the 
     {
         if (!isReloading)
         {
-            if (ammoReserve > 0 && ammo != ammoCanHold)
+            if (!(Input.GetKey(KeyCode.LeftShift) && Input.GetAxisRaw("Vertical") > 0))
             {
-                reloadAudio.Play();
-                isReloading = true;
-                yield return new WaitForSeconds(reloadTime);
-                int ammoNeeded = ammoCanHold - ammo;
+                if (ammoReserve > 0 && ammo != ammoCanHold)
+                {
+                    reloadAudio.Play();
+                    isReloading = true;
+                    yield return new WaitForSeconds(reloadTime);
+                    int ammoNeeded = ammoCanHold - ammo;
 
-                if (ammoNeeded <= ammoReserve)
-                {
-                    ammo += ammoNeeded;
-                    ammoReserve -= ammoNeeded;
+                    if (ammoNeeded <= ammoReserve)
+                    {
+                        ammo += ammoNeeded;
+                        ammoReserve -= ammoNeeded;
+                    }
+                    else if (ammoReserve == 0)
+                    { }
+                    else
+                    {
+                        ammo += ammoReserve;
+                        ammoReserve = 0;
+                    }
                 }
-                else if (ammoReserve == 0)
-                { }
-                else
-                {
-                    ammo += ammoReserve;
-                    ammoReserve = 0;
-                }
+                HandleUI();
+                // Play reloading animation here
+                isReloading = false;
             }
-            HandleUI();
-            // Play reloading animation here
-            isReloading = false;
         }
     }
 

@@ -27,11 +27,13 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     private void Start()
     {
-        GameObject t_weapon = (GameObject)PhotonNetwork.Instantiate("Weapon/" + StandartWeapon.name + "/" + StandartWeapon.name, gameObject.transform.position, gameObject.transform.rotation);
-        t_weapon.name = StandartWeapon.name;
-        photonView.RPC("ClaimWeapon", RpcTarget.All, t_weapon.GetPhotonView().ViewID);
+        if (photonView.IsMine)
+        {
+            GameObject t_weapon = (GameObject)PhotonNetwork.Instantiate("Weapon/" + StandartWeapon.name + "/" + StandartWeapon.name, gameObject.transform.position, gameObject.transform.rotation);
+            t_weapon.name = StandartWeapon.name;
+            photonView.RPC("ClaimWeapon", RpcTarget.All, t_weapon.GetPhotonView().ViewID);
+        }
     }
-
 
     // Update is called once per frame
     void Update()

@@ -1122,7 +1122,7 @@ PrefabInstance:
     - target: {fileID: 4050167358821450151, guid: e169cf7e9718bd843897ce8c1ac3e3f6,
         type: 3}
       propertyPath: m_Name
-      value: M4A1_Hands
+      value: M4A1
       objectReference: {fileID: 0}
     - target: {fileID: 4774338593773692897, guid: e169cf7e9718bd843897ce8c1ac3e3f6,
         type: 3}
@@ -1405,7 +1405,7 @@ PrefabInstance:
     - target: {fileID: 8290606965784738147, guid: 8ad6cd96e84996140bbe5f38c655efaa,
         type: 3}
       propertyPath: m_Name
-      value: Deagle_Hands
+      value: Deagle
       objectReference: {fileID: 0}
     - target: {fileID: 9107541185058566301, guid: 8ad6cd96e84996140bbe5f38c655efaa,
         type: 3}

@@ -16,9 +16,9 @@ public class Sway : MonoBehaviourPunCallbacks
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        if (!photonView.IsMine) return;
+        if (!photonView.IsMine || Pause.paused) return;
         UpdateSway();
     }
 

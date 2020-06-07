@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System;
 
 public class PlayerMovement : MonoBehaviourPunCallbacks
 {
     public CharacterController controller;
 
-    public float speed = 15f;
+    public float speed = 7f;
+    public float normalSpeed = 7f;
+    public float sprintSpeed = 10f;
+    public bool isSprinting = false;
+
     public float gravity = -39.24f;
     public float jumpHeight = 3;
-
 
     public Transform groundCheck;
     public float groundDistance = 0.1f;
@@ -25,6 +29,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         if (!photonView.IsMine) gameObject.layer = 11;
         else
         {
+            speed = normalSpeed;
             gameObject.transform.Find("Default Armless Player").gameObject.SetActive(false);
             gameObject.transform.Find("Default Arms").gameObject.SetActive(false);
         }
@@ -70,5 +75,14 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
+
+
+        isSprinting = Input.GetKey(KeyCode.LeftShift) && Input.GetAxisRaw("Vertical") > 0 && !Input.GetMouseButton(1) && !Input.GetMouseButton(0);
+
+        if (isSprinting) speed = sprintSpeed;
+        else speed = normalSpeed;
+
+
+
     }
 }
