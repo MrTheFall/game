@@ -72,13 +72,12 @@ public class Scope : MonoBehaviourPunCallbacks
                     animator.SetBool(M4A1Bool, false);
                 }
             }
-
-
-            if (Input.GetKey(KeyCode.LeftShift) && Input.GetAxisRaw("Vertical") > 0 && !Input.GetMouseButton(1) && !Input.GetMouseButton(0) && !Input.GetKey(KeyCode.LeftControl))
-            {
-                animator.SetBool("isRunning", true);
-            }
-            else animator.SetBool("isRunning", false);
         }
+
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetAxisRaw("Vertical") > 0 && !Input.GetMouseButton(1) && !Input.GetMouseButton(0) && !Input.GetKey(KeyCode.LeftControl))
+        {
+            animator.SetBool("isRunning", true);
+        }
+        else animator.SetBool("isRunning", false);
     }
 }

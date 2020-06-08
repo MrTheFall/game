@@ -98,7 +98,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
 
             isSprinting = Input.GetKey(KeyCode.LeftShift) && Input.GetAxisRaw("Vertical") > 0 && !Input.GetMouseButton(1) && !Input.GetMouseButton(0) && !isCrouching;
-            if (isSprinting) speed = sprintSpeed;
+            if (isSprinting)
+            {
+                speed = sprintSpeed;
+            }
             else speed = normalSpeed;
 
             isCrouching = Input.GetKey(KeyCode.LeftControl);
