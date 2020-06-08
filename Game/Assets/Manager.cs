@@ -7,6 +7,7 @@ using Photon.Realtime;
 using ExitGames.Client.Photon;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using System.IO.IsolatedStorage;
 
 namespace FPSGame
 {
@@ -46,7 +47,7 @@ namespace FPSGame
         private Text ui_mydeaths;
         private Transform ui_leaderboard;
         private Transform ui_endgame;
-
+        private Text ui_respawntimer;
 
         public int mainmenu = 0;
         public int killcount = 3;
@@ -102,6 +103,11 @@ namespace FPSGame
         {
             Transform t_spawn = spawnpoints[Random.Range(0, spawnpoints.Length)];
             PhotonNetwork.Instantiate(player_prefab, t_spawn.position, t_spawn.rotation);
+        }
+        
+        public void WaitBeforeSpawn()
+        {
+
         }
 
         private void InitializeUI()
@@ -393,6 +399,22 @@ namespace FPSGame
 
             PhotonNetwork.AutomaticallySyncScene = false;
             PhotonNetwork.LeaveRoom();
+        }
+
+        private IEnumerator RespawnTimer()
+        {
+            mapcam.SetActive(true);
+            ui_respawntimer = GameObject.Find("HUD").transform.Find("RespawnTimer").Find("Timer").GetComponent<Text>();
+            ui_respawntimer.gameObject.SetActive(true);
+            for (int i = 5; i >= 1; i--)
+            {
+                ui_respawntimer.text = "Respawn in: " + i.ToString() + " sec";
+                yield return new WaitForSeconds(1f);
+            }
+            Spawn();
+            ui_respawntimer.gameObject.SetActive(false);
+            ui_respawntimer.text = "Respawn in: 5 sec";
+            mapcam.SetActive(false);
         }
 
         public void ChooseWeapon(int id)

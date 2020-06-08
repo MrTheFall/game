@@ -55,13 +55,13 @@ public class Health : MonoBehaviourPunCallbacks
             if (current_health <= 0)
             {
                 photonView.RPC("DropWeapon", RpcTarget.All);
-                manager.Spawn();
+                PhotonNetwork.Destroy(gameObject);
                 manager.ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 1, 1);
+                manager.StartCoroutine("RespawnTimer");
                 if (p_actor >= 0)
                 {
                     manager.ChangeStat_S(p_actor, 0, 1);
                 }
-                PhotonNetwork.Destroy(gameObject);
             }
         }
     }
