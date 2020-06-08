@@ -29,7 +29,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        if (!photonView.IsMine) gameObject.layer = 11;
+        if (!photonView.IsMine)
+        {
+            ChangeLayersRecursively(gameObject.transform, "PlayerEnemy");
+            gameObject.GetComponent<CharacterController>().enabled = false; // this removes character controller's hitbox, so we can make our own
+        }
         else
         {
             speed = normalSpeed;
@@ -37,7 +41,18 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             gameObject.transform.Find("Default Arms").gameObject.SetActive(false);
         }
     }
-
+    public static void ChangeLayersRecursively(Transform trans, string name)
+    {
+        if (trans.gameObject.layer != LayerMask.NameToLayer("Weapon"))
+        {
+            trans.gameObject.layer = LayerMask.NameToLayer(name);
+            foreach (Transform child in trans)
+            {
+                ChangeLayersRecursively(child, name);
+            }
+        }
+    }
+    
     // Update is called once per frame
     void Update()
     {

@@ -77,6 +77,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Deagle
       objectReference: {fileID: 0}
+    - target: {fileID: 4194188100416793075, guid: c333722ee2130c44c83bc75df59b0422,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194188100416793075, guid: c333722ee2130c44c83bc75df59b0422,
+        type: 3}
+      propertyPath: m_TagString
+      value: Gun
+      objectReference: {fileID: 0}
     - target: {fileID: 6047708125636743356, guid: c333722ee2130c44c83bc75df59b0422,
         type: 3}
       propertyPath: m_PlayOnAwake

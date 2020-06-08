@@ -255,7 +255,12 @@ public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the 
                         //if we hit enemy player
                         if (hit.collider.gameObject.layer == 11)
                         {
-                            hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage, PhotonNetwork.LocalPlayer.ActorNumber);
+                            Debug.LogWarning(hit.collider.gameObject.name); ////////////////////////////////////////////////////////////////
+                            if(hit.collider.gameObject.name == "body") hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage, PhotonNetwork.LocalPlayer.ActorNumber);
+                            if(hit.collider.gameObject.name == "head") hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage * 2, PhotonNetwork.LocalPlayer.ActorNumber);
+                            if(hit.collider.gameObject.name == "left.thigh" || hit.collider.gameObject.name == "right.thigh") hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage / 2, PhotonNetwork.LocalPlayer.ActorNumber);
+                            if(hit.collider.gameObject.name == "right.shoulder" || hit.collider.gameObject.name == "left.shoulder") hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage / 2, PhotonNetwork.LocalPlayer.ActorNumber);
+
                         }
                     }
                 }
