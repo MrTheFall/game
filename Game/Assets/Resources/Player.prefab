@@ -517,6 +517,7 @@ MonoBehaviour:
   isSprinting: 0
   isCrouching: 0
   isWalking: 0
+  isCrouchingWalking: 0
   gravity: -39.24
   jumpHeight: 3
   groundCheck: {fileID: 3966099987702982733}
@@ -682,19 +683,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 3, z: 1}
   m_Center: {x: 0, y: 1.35, z: 0}
---- !u!65 &5887863169397155126
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6522019095451698365}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.97, y: 3, z: 1}
-  m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!65 &2134141736929551903
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -721,6 +709,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 3, z: 1}
   m_Center: {x: 0.05, y: 1.27, z: 0}
+--- !u!65 &5887863169397155126
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6522019095451698365}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.97, y: 3, z: 1}
+  m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!1 &8684904025239314462
 GameObject:
   m_ObjectHideFlags: 0

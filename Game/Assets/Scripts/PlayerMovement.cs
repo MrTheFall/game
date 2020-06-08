@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public bool isSprinting = false;
     public bool isCrouching = false;
     public bool isWalking = false;
+    public bool isCrouchingWalking = false;
 
     public float gravity = -39.24f;
     public float jumpHeight = 3;
@@ -118,6 +119,13 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
                 animator.SetBool("Walking", true);
             }
             else animator.SetBool("Walking", false);
+
+            isCrouchingWalking = isWalking && isCrouching;
+            if (isCrouchingWalking)
+            {
+                animator.SetBool("CrouchingWalk", true);
+            }
+            else animator.SetBool("CrouchingWalk", false);
         }
     }
 }
