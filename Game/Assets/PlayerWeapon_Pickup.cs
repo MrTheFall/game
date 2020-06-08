@@ -8,6 +8,7 @@ using ExitGames.Client.Photon;
 using System.Net.Cache;
 using Photon.Pun.Demo.Procedural;
 using System.Drawing;
+using FPSGame;
 
 public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
 {
@@ -29,6 +30,7 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
+            StandartWeapon = FindObjectOfType<Manager>().StandartWeapon;
             GameObject t_weapon = (GameObject)PhotonNetwork.Instantiate("Weapon/" + StandartWeapon.name + "/" + StandartWeapon.name, gameObject.transform.position, gameObject.transform.rotation);
             t_weapon.name = StandartWeapon.name;
             photonView.RPC("ClaimWeapon", RpcTarget.AllBuffered, t_weapon.GetPhotonView().ViewID);

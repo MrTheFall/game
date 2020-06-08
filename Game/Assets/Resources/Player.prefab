@@ -544,7 +544,7 @@ MonoBehaviour:
   Recoil_Camera: {fileID: 1027941605373742451}
   Ground_Check: {fileID: 3608659442676131868}
   weapon: {fileID: 0}
-  StandartWeapon: {fileID: 4050167358821450151, guid: e169cf7e9718bd843897ce8c1ac3e3f6,
+  StandartWeapon: {fileID: 6451516046150686191, guid: 8ad6cd96e84996140bbe5f38c655efaa,
     type: 3}
 --- !u!81 &2604123567956671355
 AudioListener:

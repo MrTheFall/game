@@ -54,6 +54,8 @@ namespace FPSGame
         public GameObject mapcam;
         private GameState state = GameState.Playing;
 
+        public GameObject StandartWeapon;
+
         public enum EventCodes : byte
         {
             NewPlayer,
@@ -81,6 +83,7 @@ namespace FPSGame
 
         private void Start()
         {
+            StandartWeapon = (GameObject)Resources.Load("Weapon/Deagle/Deagle");
             mapcam.SetActive(false);
 
             ValidateConnection();
@@ -390,6 +393,19 @@ namespace FPSGame
 
             PhotonNetwork.AutomaticallySyncScene = false;
             PhotonNetwork.LeaveRoom();
+        }
+
+        public void ChooseWeapon(int id)
+        {
+            switch (id)
+            {
+                case 1: 
+                    StandartWeapon = (GameObject)Resources.Load("Weapon/Deagle/Deagle");
+                    break;
+                case 2: 
+                    StandartWeapon = (GameObject)Resources.Load("Weapon/M4A1/M4A1");
+                    break;
+            }
         }
     }
 }
