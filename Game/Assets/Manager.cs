@@ -48,6 +48,7 @@ namespace FPSGame
         private Transform ui_leaderboard;
         private Transform ui_endgame;
         private Text ui_respawntimer;
+        private GameObject ui_health;
 
         public int mainmenu = 0;
         public int killcount = 3;
@@ -56,6 +57,7 @@ namespace FPSGame
         private GameState state = GameState.Playing;
 
         public GameObject StandartWeapon;
+        private int lastId;
 
         public enum EventCodes : byte
         {
@@ -84,6 +86,8 @@ namespace FPSGame
 
         private void Start()
         {
+            lastId = 0;
+
             StandartWeapon = (GameObject)Resources.Load("Weapon/Deagle/Deagle");
             mapcam.SetActive(false);
 
@@ -403,6 +407,8 @@ namespace FPSGame
 
         private IEnumerator RespawnTimer()
         {
+            ui_health = GameObject.Find("HUD/Health");
+            ui_health.SetActive(false);
             mapcam.SetActive(true);
             ui_respawntimer = GameObject.Find("HUD").transform.Find("RespawnTimer").Find("Timer").GetComponent<Text>();
             ui_respawntimer.gameObject.SetActive(true);
@@ -415,6 +421,13 @@ namespace FPSGame
             ui_respawntimer.gameObject.SetActive(false);
             ui_respawntimer.text = "Respawn in: 5 sec";
             mapcam.SetActive(false);
+            ui_health.SetActive(true);
+        }
+
+        public void HilightWeapon(int lastId, int id)
+        {
+            GameObject.Find("Canvas/Pause/Pause/PauseMenu/ChooseWeapon/Scroll View/Viewport/Content/Container").transform.GetChild(lastId).GetComponent<Image>().color = new Color32(60, 60, 60, 150);
+            GameObject.Find("Canvas/Pause/Pause/PauseMenu/ChooseWeapon/Scroll View/Viewport/Content/Container").transform.GetChild(id).GetComponent<Image>().color = new Color32(0, 0, 0, 150);
         }
 
         public void ChooseWeapon(int id)
@@ -428,6 +441,8 @@ namespace FPSGame
                     StandartWeapon = (GameObject)Resources.Load("Weapon/M4A1/M4A1");
                     break;
             }
+            HilightWeapon(lastId, id - 1);
+            lastId = id - 1;
         }
     }
 }
