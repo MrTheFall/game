@@ -8,6 +8,7 @@ using ExitGames.Client.Photon;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using System.IO.IsolatedStorage;
+using Photon.Pun.UtilityScripts;
 
 namespace FPSGame
 {
@@ -17,13 +18,15 @@ namespace FPSGame
         public int actor;
         public short kills;
         public short deaths;
+        public bool awayTeam;
 
-        public PlayerInfo(ProfileData p, int a, short k, short d)
+        public PlayerInfo(ProfileData p, int a, short k, short d, bool t)
         {
             this.profile = p;
             this.actor = a;
             this.kills = k;
             this.deaths = d;
+            this.awayTeam = t;
         }
     }
 
@@ -37,11 +40,17 @@ namespace FPSGame
 
     public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
+        public int matchLength = 180;
+        private int currentMatchTime;
+        private Coroutine timerCoroutine;
+
         public string player_prefab;
         public Transform[] spawnpoints;
 
         public List<PlayerInfo> playerInfo = new List<PlayerInfo>();
         public int myind;
+
+        private bool playerAdded;
 
         private Text ui_mykills;
         private Text ui_mydeaths;
@@ -49,6 +58,7 @@ namespace FPSGame
         private Transform ui_endgame;
         private Text ui_respawntimer;
         private GameObject ui_health;
+        private Text ui_timer;
 
         public int mainmenu = 0;
         public int killcount = 3;
@@ -66,7 +76,8 @@ namespace FPSGame
             NewPlayer,
             UpdatePlayers,
             ChangeStat,
-            NewMatch
+            NewMatch,
+            RefreshTimer
         }
 
         private void Update()
@@ -96,8 +107,13 @@ namespace FPSGame
 
             ValidateConnection();
             InitializeUI();
+            InitializeTimer();
             NewPlayer_S(Launcher.myProfile);
-            Spawn();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                playerAdded = true;
+                Spawn();
+            }
         }
 
         public override void OnLeftRoom()
@@ -123,6 +139,7 @@ namespace FPSGame
             ui_mydeaths = GameObject.Find("HUD/Stats/Deaths").GetComponent<Text>();
             ui_leaderboard = GameObject.Find("HUD").transform.Find("Leaderboard").transform;
             ui_endgame = GameObject.Find("HUD").transform.Find("End Game").transform;
+            ui_timer = GameObject.Find("HUD/Timer/Text").GetComponent<Text>();
 
             RefreshMyStats();
         }
@@ -144,6 +161,9 @@ namespace FPSGame
 
         private void Leaderboard(Transform p_lb)
         {
+            if (GameSettings.GameMode == GameMode.FFA) p_lb = p_lb.Find("FFA");
+            if (GameSettings.GameMode == GameMode.TDM) p_lb = p_lb.Find("TDM");
+
             // clean up
             for (int i = 2; i < p_lb.childCount; i++)
             {
@@ -151,8 +171,14 @@ namespace FPSGame
             }
 
             // set details
+            p_lb.Find("Header/Mode").GetComponent<Text>().text = System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
+            p_lb.Find("Header/Map").GetComponent<Text>().text = SceneManager.GetActiveScene().name;
 
-            p_lb.Find("Header/Map").GetComponent<Text>().text = "NULL";
+            if (GameSettings.GameMode == GameMode.TDM)
+            {
+                p_lb.Find("Header/Score/Home").GetComponent<Text>().text = "0";
+                p_lb.Find("Header/Score/Away").GetComponent<Text>().text = "0";
+            }
 
 
             // cache prefab
@@ -168,6 +194,12 @@ namespace FPSGame
             {
                 GameObject newcard = Instantiate(playercard, p_lb) as GameObject;
 
+                if (GameSettings.GameMode == GameMode.TDM)
+                {
+                    newcard.transform.Find("Home").gameObject.SetActive(!a.awayTeam);
+                    newcard.transform.Find("Away").gameObject.SetActive(a.awayTeam);
+                }
+
                 if (t_alternateColors) newcard.GetComponent<Image>().color = new Color32(0, 0, 0, 180);
                 t_alternateColors = !t_alternateColors;
 
@@ -178,36 +210,102 @@ namespace FPSGame
                 newcard.SetActive(true);
             }
 
-            // activate
-            p_lb.gameObject.SetActive(true);
-            p_lb.parent.gameObject.SetActive(true);
+                p_lb.gameObject.SetActive(true);
+                p_lb.parent.gameObject.SetActive(true);
         }
 
         private List<PlayerInfo> SortPlayers(List<PlayerInfo> p_info)
         {
             List<PlayerInfo> sorted = new List<PlayerInfo>();
-            while (sorted.Count < p_info.Count)
+            if (GameSettings.GameMode == GameMode.FFA)
             {
-                // set defaults
-                short highest = -1;
-                PlayerInfo selection = p_info[0];
-
-                // grab next highest player
-                foreach (PlayerInfo a in p_info)
+                while (sorted.Count < p_info.Count)
                 {
-                    if (sorted.Contains(a)) continue;
-                    if (a.kills > highest)
+                    // set defaults
+                    short highest = -1;
+                    PlayerInfo selection = p_info[0];
+
+                    // grab next highest player
+                    foreach (PlayerInfo a in p_info)
                     {
-                        selection = a;
-                        highest = a.kills;
+                        if (sorted.Contains(a)) continue;
+                        if (a.kills > highest)
+                        {
+                            selection = a;
+                            highest = a.kills;
+                        }
                     }
+
+                    // add player
+                    sorted.Add(selection);
+                }
+            }
+
+            if (GameSettings.GameMode == GameMode.TDM)
+            {
+                List<PlayerInfo> homeSorted = new List<PlayerInfo>();
+                List<PlayerInfo> awaySorted = new List<PlayerInfo>();
+
+                int homeSize = 0;
+                int awaySize = 0;
+
+                foreach (PlayerInfo p in p_info)
+                {
+                    if (p.awayTeam) awaySize++;
+                    else homeSize++;
                 }
 
-                // add player
-                sorted.Add(selection);
+                while (homeSorted.Count < homeSize)
+                {
+                    // set defaults
+                    short highest = -1;
+                    PlayerInfo selection = p_info[0];
+
+                    // grab next highest player
+                    foreach (PlayerInfo a in p_info)
+                    {
+                        if (a.awayTeam) continue;
+                        if (homeSorted.Contains(a)) continue;
+                        if (a.kills > highest)
+                        {
+                            selection = a;
+                            highest = a.kills;
+                        }
+                    }
+
+                    // add player
+                    homeSorted.Add(selection);
+                }
+
+                while (awaySorted.Count < awaySize)
+                {
+                    // set defaults
+                    short highest = -1;
+                    PlayerInfo selection = p_info[0];
+
+                    // grab next highest player
+                    foreach (PlayerInfo a in p_info)
+                    {
+                        if (!a.awayTeam) continue;
+                        if (awaySorted.Contains(a)) continue;
+                        if (a.kills > highest)
+                        {
+                            selection = a;
+                            highest = a.kills;
+                        }
+                    }
+
+                    // add player
+                    awaySorted.Add(selection);
+                }
+
+                sorted.AddRange(homeSorted);
+                sorted.AddRange(awaySorted);
             }
+
             return sorted;
         }
+
 
         private void ValidateConnection()
         {
@@ -245,6 +343,10 @@ namespace FPSGame
         {
             state = GameState.Ending;
 
+            if (timerCoroutine != null) StopCoroutine(timerCoroutine);
+            currentMatchTime = 0;
+            RefreshTimerUI();
+
             if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.DestroyAll();
@@ -281,16 +383,29 @@ namespace FPSGame
                 case EventCodes.ChangeStat:
                     ChangeStat_R(o);
                     break;
+                case EventCodes.NewMatch:
+                    NewMatch_R();
+                    break;
+                case EventCodes.RefreshTimer:
+                    RefreshTimer_R(o);
+                    break;
             }
         }
+
+        private bool CalculateTeam()
+        {
+            return PhotonNetwork.CurrentRoom.PlayerCount % 2 == 0;
+        }
+
         public void NewPlayer_S(ProfileData p)
         {
-            object[] package = new object[7];
+            object[] package = new object[5];
 
             package[0] = p.username;
             package[1] = PhotonNetwork.LocalPlayer.ActorNumber;
             package[2] = (short)0;
             package[3] = (short)0;
+            package[4] = CalculateTeam();
 
             PhotonNetwork.RaiseEvent(
                 (byte)EventCodes.NewPlayer,
@@ -306,10 +421,16 @@ namespace FPSGame
                 new ProfileData((string)data[0]),
                 (int)data[1],
                 (short)data[2],
-                (short)data[3]
+                (short)data[3],
+                (bool)data[4]
             );
 
             playerInfo.Add(p);
+
+            foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                gameObject.GetComponent<Health>().TrySync();
+            }
 
             UpdatePlayers_S((int)state, playerInfo);
         }
@@ -321,12 +442,13 @@ namespace FPSGame
             package[0] = state;
             for (int i = 0; i < info.Count; i++)
             {
-                object[] piece = new object[4];
+                object[] piece = new object[5];
 
                 piece[0] = info[i].profile.username;
                 piece[1] = info[i].actor;
                 piece[2] = info[i].kills;
                 piece[3] = info[i].deaths;
+                piece[4] = info[i].awayTeam;
 
                 package[i + 1] = piece;
             }
@@ -341,6 +463,15 @@ namespace FPSGame
         public void UpdatePlayers_R(object[] data)
         {
             state = (GameState)data[0];
+
+            if(playerInfo.Count < data.Length - 1)
+            {
+                foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Player"))
+                {
+                    gameObject.GetComponent<Health>().TrySync();
+                }
+            }
+
             playerInfo = new List<PlayerInfo>();
 
             for (int i = 1; i < data.Length; i++)
@@ -352,10 +483,21 @@ namespace FPSGame
                         (string)extract[0]),
                     (int)extract[1],
                     (short)extract[2],
-                    (short)extract[3]
+                    (short)extract[3],
+                    (bool)extract[4]
                     );
                 playerInfo.Add(p);
-                if (PhotonNetwork.LocalPlayer.ActorNumber == p.actor) myind = i - 1;
+                if (PhotonNetwork.LocalPlayer.ActorNumber == p.actor)
+                {
+                    myind = i - 1;
+
+                    if (!playerAdded)
+                    {
+                        playerAdded = true;
+                        GameSettings.IsAwayTeam = p.awayTeam;
+                        Spawn();
+                    }
+                }
             }
             StateCheck();
         }
@@ -427,9 +569,27 @@ namespace FPSGame
             }
 
             RefreshMyStats();
-
+            InitializeTimer();
             Spawn();
         }
+
+        public void RefreshTimer_S()
+        {
+            object[] package = new object[] { currentMatchTime };
+
+            PhotonNetwork.RaiseEvent(
+                (byte)EventCodes.RefreshTimer,
+                package,
+                new RaiseEventOptions { Receivers = ReceiverGroup.All },
+                new SendOptions { Reliability = true }
+            );
+        }
+        public void RefreshTimer_R(object[] data)
+        {
+            currentMatchTime = (int)data[0];
+            RefreshTimerUI();
+        }
+
 
         private IEnumerator End(float sec)
         {
@@ -488,5 +648,41 @@ namespace FPSGame
             HilightWeapon(lastId, id - 1);
             lastId = id - 1;
         }
+
+        private void RefreshTimerUI()
+        {
+            string minutes = (currentMatchTime / 60).ToString("00");
+            string seconds = (currentMatchTime % 60).ToString("00");
+            ui_timer.text = $"{minutes}:{seconds}";
+        }
+        private void InitializeTimer()
+        {
+            currentMatchTime = matchLength;
+            RefreshTimerUI();
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                timerCoroutine = StartCoroutine(Timer());
+            }
+        }
+
+        private IEnumerator Timer()
+        {
+            yield return new WaitForSeconds(1f);
+
+            currentMatchTime -= 1;
+
+            if (currentMatchTime <= 0)
+            {
+                timerCoroutine = null;
+                UpdatePlayers_S((int)GameState.Ending, playerInfo);
+            }
+            else
+            {
+                RefreshTimer_S();
+                timerCoroutine = StartCoroutine(Timer());
+            }
+        }
+
     }
 }

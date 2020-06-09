@@ -491,6 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdde9bd90cf934c4d97507f84f65d697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  matchLength: 180
   player_prefab: Player
   spawnpoints:
   - {fileID: 208140355}
@@ -502,6 +503,7 @@ MonoBehaviour:
   mapcam: {fileID: 1937004659}
   StandartWeapon: {fileID: 6451516046150686191, guid: 8ad6cd96e84996140bbe5f38c655efaa,
     type: 3}
+  perpetual: 1
 --- !u!4 &891811595
 Transform:
   m_ObjectHideFlags: 0

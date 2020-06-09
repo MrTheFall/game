@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Security.Cryptography;
 using UnityEngine.UI;
+using Photon.Pun.Demo.PunBasics;
 
 namespace FPSGame
 {
@@ -38,6 +39,7 @@ namespace FPSGame
         public static ProfileData myProfile = new ProfileData();
         public InputField roomnameField;
         public Text mapValue;
+        public Text modeValue;
         public Slider maxPlayersSlider;
         public Text maxPlayersValue;
 
@@ -97,11 +99,12 @@ namespace FPSGame
             RoomOptions options = new RoomOptions();
             options.MaxPlayers = (byte)maxPlayersSlider.value;
 
-            options.CustomRoomPropertiesForLobby = new string[] { "map" };
+            options.CustomRoomPropertiesForLobby = new string[] { "map", "mode" };
 
             // will use this later
             ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
             properties.Add("map", currentmap);
+            properties.Add("mode", (int)GameSettings.GameMode);
             options.CustomRoomProperties = properties;
 
             PhotonNetwork.CreateRoom(roomnameField.text, options);
@@ -114,10 +117,13 @@ namespace FPSGame
             if (currentmap >= maps.Length) currentmap = 0;
             mapValue.text = "MAP: " + maps[currentmap].name.ToUpper();
         }
-        
+
         public void ChangeMode()
         {
-
+            int newMode = (int)GameSettings.GameMode + 1;
+            if (newMode >= System.Enum.GetValues(typeof(GameMode)).Length) newMode = 0;
+            GameSettings.GameMode = (GameMode)newMode;
+            modeValue.text = "MODE: " + System.Enum.GetName(typeof(GameMode), newMode);
         }
 
         public void ChangeMaxPlayersSlider(float t_value)
@@ -153,6 +159,9 @@ namespace FPSGame
 
             currentmap = 0;
             mapValue.text = "MAP: " + maps[currentmap].name.ToUpper();
+
+            GameSettings.GameMode = (GameMode)0;
+            modeValue.text = "MODE: " + System.Enum.GetName(typeof(GameMode), (GameMode)0);
 
             maxPlayersSlider.value = maxPlayersSlider.maxValue;
             maxPlayersValue.text = Mathf.RoundToInt(maxPlayersSlider.value).ToString();
@@ -207,6 +216,27 @@ namespace FPSGame
             VerifyUsername();
             string t_roomName = p_button.Find("Name").GetComponent<Text>().text;
             PhotonNetwork.JoinRoom(t_roomName);
+
+            RoomInfo roomInfo = null;
+            Transform buttonParent = p_button.parent;
+            for (int i = 0; i < buttonParent.childCount; i++)
+            {
+                if (buttonParent.GetChild(i).Equals(p_button))
+                {
+                    roomInfo = roomList[i];
+                    break;
+                }
+            }
+            if (roomInfo != null)
+            {
+                LoadGameSettings(roomInfo);
+                PhotonNetwork.JoinRoom(t_roomName);
+            }
+        }
+
+        public void LoadGameSettings(RoomInfo roomInfo)
+        {
+            GameSettings.GameMode = (GameMode)roomInfo.CustomProperties["mode"];
         }
 
         public void StartGame()

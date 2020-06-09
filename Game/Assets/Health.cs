@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using FPSGame;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviourPunCallbacks
 {
@@ -11,6 +12,10 @@ public class Health : MonoBehaviourPunCallbacks
     private int current_health;
     private Manager manager;
     private Transform ui_healthbar;
+
+    public bool awayTeam;
+    public Renderer[] teamIndicators;
+    private Text ui_team;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +26,57 @@ public class Health : MonoBehaviourPunCallbacks
         {
             ui_healthbar = GameObject.Find("Canvas/HUD/Health/Bar").transform;
             refreshHealthBar();
+            ui_team = GameObject.Find("HUD/Team/Text").GetComponent<Text>();
+
+
+            if (GameSettings.GameMode == GameMode.TDM)
+            {
+                photonView.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
+                if (awayTeam)
+                {
+                    ui_team.text = "RED Team";
+                    ui_team.color = Color.red;
+                }
+                else
+                {
+                    ui_team.text = "BLUE Team";
+                    ui_team.color = Color.blue;
+                }
+            }
+            else
+            {
+                ui_team.gameObject.SetActive(false);
+            }
+
+        }
+    }
+
+    [PunRPC]
+    private void SyncTeam(bool p_awayTeam)
+    {
+        awayTeam = p_awayTeam;
+
+        if (awayTeam)
+        {
+            ColorTeamIndicators(Color.red);
+        }
+        else
+        {
+            ColorTeamIndicators(Color.blue);
+        }
+    }
+
+    private void ColorTeamIndicators(Color p_color)
+    {
+        foreach (Renderer renderer in teamIndicators) renderer.material.color = p_color;
+    }
+
+    public void TrySync()
+    {
+        if (!photonView.IsMine) return;
+        if(GameSettings.GameMode == GameMode.TDM)
+        {
+            photonView.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
         }
     }
 

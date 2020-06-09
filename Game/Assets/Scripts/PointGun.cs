@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using Photon.Pun;
-
+using Photon.Realtime;
 
 public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the "Weapon" script
 {
@@ -250,17 +250,30 @@ public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the 
                     }
 
 
-                    if (gameObject.transform.root.GetComponent<PhotonView>().IsMine)
-                    {
-                        //if we hit enemy player
-                        if (hit.collider.gameObject.layer == 11)
-                        {
-                            Debug.LogWarning(hit.collider.gameObject.name); ////////////////////////////////////////////////////////////////
-                            if(hit.collider.gameObject.name == "body") hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage, PhotonNetwork.LocalPlayer.ActorNumber);
-                            if(hit.collider.gameObject.name == "head") hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage * 2, PhotonNetwork.LocalPlayer.ActorNumber);
-                            if(hit.collider.gameObject.name == "left.thigh" || hit.collider.gameObject.name == "right.thigh") hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage / 2, PhotonNetwork.LocalPlayer.ActorNumber);
-                            if(hit.collider.gameObject.name == "right.shoulder" || hit.collider.gameObject.name == "left.shoulder") hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage / 2, PhotonNetwork.LocalPlayer.ActorNumber);
 
+                    //if we hit enemy player
+                    if (hit.collider.gameObject.layer == 11)
+                    {
+                        bool applyDamage = false;
+
+                        if (GameSettings.GameMode == GameMode.FFA)
+                        {
+                            applyDamage = true;
+                        }
+
+                        if (GameSettings.GameMode == GameMode.TDM)
+                        {
+                            if (hit.collider.transform.root.gameObject.GetComponent<Health>().awayTeam != GameSettings.IsAwayTeam)
+                            {
+                                applyDamage = true;
+                            }
+                        }
+                        if (applyDamage)
+                        {
+                            if (hit.collider.gameObject.name == "body") hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage, PhotonNetwork.LocalPlayer.ActorNumber);
+                            if (hit.collider.gameObject.name == "head") hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage * 2, PhotonNetwork.LocalPlayer.ActorNumber);
+                            if (hit.collider.gameObject.name == "left.thigh" || hit.collider.gameObject.name == "right.thigh") hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage / 2, PhotonNetwork.LocalPlayer.ActorNumber);
+                            if (hit.collider.gameObject.name == "right.shoulder" || hit.collider.gameObject.name == "left.shoulder") hit.collider.transform.root.gameObject.GetPhotonView().RPC("TakeDamageRPC", RpcTarget.All, damage / 2, PhotonNetwork.LocalPlayer.ActorNumber);
                         }
                     }
                 }

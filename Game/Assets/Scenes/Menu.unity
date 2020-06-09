@@ -2671,6 +2671,7 @@ MonoBehaviour:
   usernameField: {fileID: 122195335}
   roomnameField: {fileID: 1353316586}
   mapValue: {fileID: 397349507}
+  modeValue: {fileID: 2016982676}
   maxPlayersSlider: {fileID: 985463247}
   maxPlayersValue: {fileID: 952206700}
   tabMain: {fileID: 2044007750}
