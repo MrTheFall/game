@@ -24,13 +24,20 @@ namespace FPSGame
             this.username = u;
         }
     }
+
+    [System.Serializable]
+    public class MapData
+    {
+        public string name;
+        public int scene;
+    }
+
     public class Launcher : MonoBehaviourPunCallbacks
     {
         public InputField usernameField;
         public static ProfileData myProfile = new ProfileData();
         public InputField roomnameField;
         public Text mapValue;
-        public Text modeValue;
         public Slider maxPlayersSlider;
         public Text maxPlayersValue;
 
@@ -41,6 +48,8 @@ namespace FPSGame
         public GameObject buttonRoom;
 
         private List<RoomInfo> roomList;
+        public MapData[] maps;
+        private int currentmap = 0;
 
         public void Awake()
         {
@@ -88,9 +97,11 @@ namespace FPSGame
             RoomOptions options = new RoomOptions();
             options.MaxPlayers = (byte)maxPlayersSlider.value;
 
+            options.CustomRoomPropertiesForLobby = new string[] { "map" };
+
             // will use this later
             ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
-            properties.Add("map", 0);
+            properties.Add("map", currentmap);
             options.CustomRoomProperties = properties;
 
             PhotonNetwork.CreateRoom(roomnameField.text, options);
@@ -99,7 +110,9 @@ namespace FPSGame
 
         public void ChangeMap()
         {
-
+            currentmap++;
+            if (currentmap >= maps.Length) currentmap = 0;
+            mapValue.text = "MAP: " + maps[currentmap].name.ToUpper();
         }
         
         public void ChangeMode()
@@ -135,6 +148,14 @@ namespace FPSGame
         {
             TabCloseAll();
             tabCreate.SetActive(true);
+
+            roomnameField.text = "";
+
+            currentmap = 0;
+            mapValue.text = "MAP: " + maps[currentmap].name.ToUpper();
+
+            maxPlayersSlider.value = maxPlayersSlider.maxValue;
+            maxPlayersValue.text = Mathf.RoundToInt(maxPlayersSlider.value).ToString();
         }
 
             public void ClearRoomList()
@@ -156,6 +177,12 @@ namespace FPSGame
 
                 newRoomButton.transform.Find("Name").GetComponent<Text>().text = a.Name;
                 newRoomButton.transform.Find("Players").GetComponent<Text>().text = a.PlayerCount + " / " + a.MaxPlayers;
+
+                if (a.CustomProperties.ContainsKey("map"))
+                {
+                    newRoomButton.transform.Find("Map/Name").GetComponent<Text>().text = maps[(int)a.CustomProperties["map"]].name;
+                }
+                else newRoomButton.transform.Find("Map/Name").GetComponent<Text>().text = "----";
 
                 newRoomButton.GetComponent<Button>().onClick.AddListener(delegate { JoinRoom(newRoomButton.transform); });
             }
@@ -189,7 +216,7 @@ namespace FPSGame
             if(PhotonNetwork.CurrentRoom.PlayerCount == 1)
             {
                 Debug.Log("Level Loaded");
-                PhotonNetwork.LoadLevel(1);
+                PhotonNetwork.LoadLevel(maps[currentmap].scene);
             }
         }
     }

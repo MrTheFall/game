@@ -59,11 +59,14 @@ namespace FPSGame
         public GameObject StandartWeapon;
         private int lastId;
 
+        public bool perpetual = false;
+
         public enum EventCodes : byte
         {
             NewPlayer,
             UpdatePlayers,
-            ChangeStat
+            ChangeStat,
+            NewMatch
         }
 
         private void Update()
@@ -245,8 +248,12 @@ namespace FPSGame
             if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.DestroyAll();
-                PhotonNetwork.CurrentRoom.IsVisible = false;
-                PhotonNetwork.CurrentRoom.IsOpen = false;
+
+                if (!perpetual)
+                {
+                    PhotonNetwork.CurrentRoom.IsVisible = false;
+                    PhotonNetwork.CurrentRoom.IsOpen = false;
+                }
             }
 
             mapcam.SetActive(true);
@@ -397,14 +404,51 @@ namespace FPSGame
             ScoreCheck();
         }
 
+        public void NewMatch_S()
+        {
+            PhotonNetwork.RaiseEvent(
+                (byte)EventCodes.NewMatch,
+                null,
+                new RaiseEventOptions { Receivers = ReceiverGroup.All },
+                new SendOptions { Reliability = true }
+                );
+        }
+
+        public void NewMatch_R()
+        {
+            state = GameState.Waiting;
+            mapcam.SetActive(false);
+            ui_endgame.gameObject.SetActive(false);
+
+            foreach(PlayerInfo p in playerInfo)
+            {
+                p.kills = 0;
+                p.deaths = 0;
+            }
+
+            RefreshMyStats();
+
+            Spawn();
+        }
+
         private IEnumerator End(float sec)
         {
             yield return new WaitForSeconds(sec);
 
-            PhotonNetwork.AutomaticallySyncScene = false;
-            PhotonNetwork.LeaveRoom();
+            if (perpetual)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    NewMatch_S();
+                }
+            }
+            else
+            {
+                PhotonNetwork.AutomaticallySyncScene = false;
+                PhotonNetwork.LeaveRoom();
+            }
         }
-
+        
         private IEnumerator RespawnTimer()
         {
             ui_health = GameObject.Find("HUD/Health");
