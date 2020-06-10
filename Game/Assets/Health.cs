@@ -30,7 +30,7 @@ public class Health : MonoBehaviourPunCallbacks
             ui_team = GameObject.Find("HUD/Team/Text").GetComponent<Text>();
 
 
-            if (GameSettings.GameMode == GameMode.TDM)
+            if (GameSettings.GameMode == GameMode.ORIGINAL)
             {
                 photonView.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
                 if (awayTeam)
@@ -75,7 +75,7 @@ public class Health : MonoBehaviourPunCallbacks
     public void TrySync()
     {
         if (!photonView.IsMine) return;
-        if(GameSettings.GameMode == GameMode.TDM)
+        if(GameSettings.GameMode == GameMode.ORIGINAL)
         {
             photonView.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
         }
@@ -122,7 +122,7 @@ public class Health : MonoBehaviourPunCallbacks
             if (current_health <= 0)
             {
                 photonView.RPC("DropWeapon", RpcTarget.All);
-                if (GameSettings.GameMode == GameMode.TDM) manager.mapcam.SetActive(true);
+                if (GameSettings.GameMode == GameMode.ORIGINAL) manager.mapcam.SetActive(true);
                 PhotonNetwork.Destroy(gameObject);
                 manager.ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 1, 1);
                 if (GameSettings.GameMode == GameMode.FFA) manager.StartCoroutine("RespawnTimer");

@@ -263,7 +263,7 @@ public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the 
                             applyDamage = true;
                         }
 
-                        if (GameSettings.GameMode == GameMode.TDM)
+                        if (GameSettings.GameMode == GameMode.ORIGINAL)
                         {
                             if (hit.collider.transform.root.gameObject.GetComponent<Health>().awayTeam != GameSettings.IsAwayTeam)
                             {

@@ -167,7 +167,7 @@ namespace FPSGame
         private void Leaderboard(Transform p_lb)
         {
             if (GameSettings.GameMode == GameMode.FFA) p_lb = p_lb.Find("FFA");
-            if (GameSettings.GameMode == GameMode.TDM) p_lb = p_lb.Find("TDM");
+            if (GameSettings.GameMode == GameMode.ORIGINAL) p_lb = p_lb.Find("ORIGINAL");
 
             // clean up
             for (int i = 2; i < p_lb.childCount; i++)
@@ -179,7 +179,7 @@ namespace FPSGame
             p_lb.Find("Header/Mode").GetComponent<Text>().text = System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
             p_lb.Find("Header/Map").GetComponent<Text>().text = SceneManager.GetActiveScene().name;
 
-            if (GameSettings.GameMode == GameMode.TDM)
+            if (GameSettings.GameMode == GameMode.ORIGINAL)
             {
                 p_lb.Find("Header/Score/Home").GetComponent<Text>().text = "0";
                 p_lb.Find("Header/Score/Away").GetComponent<Text>().text = "0";
@@ -199,7 +199,7 @@ namespace FPSGame
             {
                 GameObject newcard = Instantiate(playercard, p_lb) as GameObject;
 
-                if (GameSettings.GameMode == GameMode.TDM)
+                if (GameSettings.GameMode == GameMode.ORIGINAL)
                 {
                     newcard.transform.Find("Home").gameObject.SetActive(!a.awayTeam);
                     newcard.transform.Find("Away").gameObject.SetActive(a.awayTeam);
@@ -246,7 +246,7 @@ namespace FPSGame
                 }
             }
 
-            if (GameSettings.GameMode == GameMode.TDM)
+            if (GameSettings.GameMode == GameMode.ORIGINAL)
             {
                 List<PlayerInfo> homeSorted = new List<PlayerInfo>();
                 List<PlayerInfo> awaySorted = new List<PlayerInfo>();

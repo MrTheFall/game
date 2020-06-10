@@ -5,7 +5,7 @@ using UnityEngine;
 public enum GameMode
 {
     FFA = 0,
-    TDM = 1
+    ORIGINAL = 1
 }
 
 public class GameSettings : MonoBehaviour
