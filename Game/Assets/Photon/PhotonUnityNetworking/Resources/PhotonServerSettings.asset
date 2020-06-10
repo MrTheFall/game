@@ -50,6 +50,8 @@ MonoBehaviour:
   - TakeDamageRPC
   - SyncGuns
   - SyncTeam
+  - CheckRespawn
+  - DestroyPlayers
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

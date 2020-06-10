@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using FPSGame;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Health : MonoBehaviourPunCallbacks
 {
@@ -88,12 +89,22 @@ public class Health : MonoBehaviourPunCallbacks
             refreshHealthBar();
         }
         if (Input.GetKeyDown(KeyCode.U)) TakeDamage(50, -1);
+
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                PhotonNetwork.Destroy(player);
+            }
+        }
     }
 
     [PunRPC]
     public void TakeDamageRPC(int damage, int p_actor)
     {
         TakeDamage(damage, p_actor);
+
     }
 
     public void refreshHealthBar()
@@ -111,9 +122,12 @@ public class Health : MonoBehaviourPunCallbacks
             if (current_health <= 0)
             {
                 photonView.RPC("DropWeapon", RpcTarget.All);
+                if (GameSettings.GameMode == GameMode.TDM) manager.mapcam.SetActive(true);
                 PhotonNetwork.Destroy(gameObject);
                 manager.ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 1, 1);
-                manager.StartCoroutine("RespawnTimer");
+                if (GameSettings.GameMode == GameMode.FFA) manager.StartCoroutine("RespawnTimer");
+
+
                 if (p_actor >= 0)
                 {
                     manager.ChangeStat_S(p_actor, 0, 1);
@@ -121,4 +135,5 @@ public class Health : MonoBehaviourPunCallbacks
             }
         }
     }
+
 }

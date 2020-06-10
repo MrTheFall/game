@@ -503,7 +503,7 @@ MonoBehaviour:
   mapcam: {fileID: 1937004659}
   StandartWeapon: {fileID: 6451516046150686191, guid: 8ad6cd96e84996140bbe5f38c655efaa,
     type: 3}
-  perpetual: 1
+  perpetual: 0
 --- !u!4 &891811595
 Transform:
   m_ObjectHideFlags: 0

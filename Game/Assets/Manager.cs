@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using UnityEngine.Video;
 using System.IO.IsolatedStorage;
 using Photon.Pun.UtilityScripts;
+using System.Linq;
 
 namespace FPSGame
 {
@@ -18,14 +19,16 @@ namespace FPSGame
         public int actor;
         public short kills;
         public short deaths;
+        public bool isDead;
         public bool awayTeam;
 
-        public PlayerInfo(ProfileData p, int a, short k, short d, bool t)
+        public PlayerInfo(ProfileData p, int a, short k, short d, bool i, bool t)
         {
             this.profile = p;
             this.actor = a;
             this.kills = k;
             this.deaths = d;
+            this.isDead = i;
             this.awayTeam = t;
         }
     }
@@ -70,6 +73,8 @@ namespace FPSGame
         private int lastId;
 
         public bool perpetual = false;
+
+        private bool respawned = false;
 
         public enum EventCodes : byte
         {
@@ -187,7 +192,7 @@ namespace FPSGame
 
             // sort
             List<PlayerInfo> sorted = SortPlayers(playerInfo);
-
+            
             // display
             bool t_alternateColors = false;
             foreach (PlayerInfo a in sorted)
@@ -302,8 +307,83 @@ namespace FPSGame
                 sorted.AddRange(homeSorted);
                 sorted.AddRange(awaySorted);
             }
-
             return sorted;
+        }
+
+        public List<PlayerInfo> SortHome(List<PlayerInfo> p_info)
+        {
+
+            List<PlayerInfo> sorted = new List<PlayerInfo>();
+            List<PlayerInfo> homeSorted = new List<PlayerInfo>();
+
+            int homeSize = 0;
+
+            foreach (PlayerInfo p in p_info)
+            {
+                if (!p.awayTeam) homeSize++;
+            }
+
+            while (homeSorted.Count < homeSize)
+            {
+                // set defaults
+                short highest = -1;
+                PlayerInfo selection = p_info[0];
+
+                // grab next highest player
+                foreach (PlayerInfo a in p_info)
+                {
+                    if (a.awayTeam) continue;
+                    if (homeSorted.Contains(a)) continue;
+                    if (a.kills > highest)
+                    {
+                        selection = a;
+                        highest = a.kills;
+                    }
+                }
+
+                // add player
+                homeSorted.Add(selection);
+            }
+
+            return homeSorted;
+        }
+
+        public List<PlayerInfo> SortAway(List<PlayerInfo> p_info)
+        {
+
+            List<PlayerInfo> sorted = new List<PlayerInfo>();
+            List<PlayerInfo> awaySorted = new List<PlayerInfo>();
+
+            int awaySize = 0;
+
+            foreach (PlayerInfo p in p_info)
+            {
+                if (p.awayTeam) awaySize++;
+            }
+
+            while (awaySorted.Count < awaySize)
+            {
+                // set defaults
+                short highest = -1;
+                PlayerInfo selection = p_info[0];
+
+                // grab next highest player
+                foreach (PlayerInfo a in p_info)
+                {
+                    if (!a.awayTeam) continue;
+                    if (awaySorted.Contains(a)) continue;
+                    if (a.kills > highest)
+                    {
+                        selection = a;
+                        highest = a.kills;
+                    }
+                }
+
+                // add player
+                awaySorted.Add(selection);
+            }
+
+            return awaySorted;
         }
 
 
@@ -399,13 +479,14 @@ namespace FPSGame
 
         public void NewPlayer_S(ProfileData p)
         {
-            object[] package = new object[5];
+            object[] package = new object[6];
 
             package[0] = p.username;
             package[1] = PhotonNetwork.LocalPlayer.ActorNumber;
             package[2] = (short)0;
             package[3] = (short)0;
-            package[4] = CalculateTeam();
+            package[4] = (bool)false;
+            package[5] = CalculateTeam();
 
             PhotonNetwork.RaiseEvent(
                 (byte)EventCodes.NewPlayer,
@@ -422,7 +503,8 @@ namespace FPSGame
                 (int)data[1],
                 (short)data[2],
                 (short)data[3],
-                (bool)data[4]
+                (bool)data[4],
+                (bool)data[5]
             );
 
             playerInfo.Add(p);
@@ -442,13 +524,14 @@ namespace FPSGame
             package[0] = state;
             for (int i = 0; i < info.Count; i++)
             {
-                object[] piece = new object[5];
+                object[] piece = new object[6];
 
                 piece[0] = info[i].profile.username;
                 piece[1] = info[i].actor;
                 piece[2] = info[i].kills;
                 piece[3] = info[i].deaths;
-                piece[4] = info[i].awayTeam;
+                piece[4] = info[i].isDead;
+                piece[5] = info[i].awayTeam;
 
                 package[i + 1] = piece;
             }
@@ -484,9 +567,11 @@ namespace FPSGame
                     (int)extract[1],
                     (short)extract[2],
                     (short)extract[3],
-                    (bool)extract[4]
+                    (bool)extract[4],
+                    (bool)extract[5]
                     );
                 playerInfo.Add(p);
+
                 if (PhotonNetwork.LocalPlayer.ActorNumber == p.actor)
                 {
                     myind = i - 1;
@@ -532,7 +617,12 @@ namespace FPSGame
 
                         case 1:
                             playerInfo[i].deaths += amt;
+                            playerInfo[i].isDead = true;
                             Debug.LogError($"Player {playerInfo[i].profile.username} : deaths = {playerInfo[i].deaths}");
+                            break;
+                        case 2:
+                            playerInfo[i].isDead = false;
+                            Debug.LogError($"Player {playerInfo[i].profile.username} respawned");
                             break;
                     }
 
@@ -542,8 +632,55 @@ namespace FPSGame
                     break;
                 }
             }
+            //Если убивает не мастерклиент то создается копия этого не мастерклиента. Потому что когда умирает мастерклиент то он только отправляет статы, но не получает ничего.
+            if (stat == 1 || stat == 0)
+            {
+                List<PlayerInfo> list = SortAway(playerInfo);
+                //до этой проверки нужно установить игроку isDead true
+                if (list.All(x => x.isDead) && !respawned)
+                {
+                    respawned = true;
+                    StartCoroutine(NewRound());
+                }
+                list = SortHome(playerInfo);
+                if (list.All(x => x.isDead) && !respawned)
+                {
+                    respawned = true;
+                    StartCoroutine(NewRound());
+                }
+            }
+
 
             ScoreCheck();
+        }
+        
+        private IEnumerator NewRound()
+        {
+            yield return new WaitForSeconds(7f);
+            DestroyWeapons();
+            DestroyPlayers();
+            Debug.LogWarning("Respawning");
+            StartCoroutine("RespawnTimer");
+        }
+
+        public void DestroyPlayers()
+        {
+            foreach (GameObject Player in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                if (Player.GetComponent<PhotonView>().IsMine == true && PhotonNetwork.IsConnected == true)
+                {
+                    PhotonNetwork.Destroy(Player.gameObject);
+                }
+            }
+        }
+        public void DestroyWeapons()
+        {
+            foreach (GameObject Weapon in GameObject.FindGameObjectsWithTag("Gun"))
+            {
+                {
+                    PhotonNetwork.Destroy(Weapon.gameObject);
+                }
+            }
         }
 
         public void NewMatch_S()
@@ -611,7 +748,7 @@ namespace FPSGame
         
         private IEnumerator RespawnTimer()
         {
-            ui_health = GameObject.Find("HUD/Health");
+            ui_health = GameObject.Find("Canvas/HUD/Health");
             ui_health.SetActive(false);
             mapcam.SetActive(true);
             ui_respawntimer = GameObject.Find("HUD").transform.Find("RespawnTimer").Find("Timer").GetComponent<Text>();
@@ -626,6 +763,8 @@ namespace FPSGame
             ui_respawntimer.text = "Respawn in: 5 sec";
             mapcam.SetActive(false);
             ui_health.SetActive(true);
+            ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 2, 0);
+            respawned = false;
         }
 
         public void HilightWeapon(int lastId, int id)

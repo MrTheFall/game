@@ -90,6 +90,7 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
         myWeapon.RecoilCamTransform = Recoil_Camera;
         myWeapon.cam = cam;
         myWeapon.HandsEnable();
+        myWeapon.wasDropped = false;
     }
 
     [PunRPC]
@@ -107,6 +108,7 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
             myWeapon.WeaponIsActive(false);
             weapon = null;
             if(photonView.IsMine) gameObject.transform.Find("Default Arms").gameObject.SetActive(false);
+            myWeapon.wasDropped = true;
         }
     }
 }

@@ -85,6 +85,8 @@ public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the 
     private LayerMask bulletGoThrough = ~((1 << 10) | (1 << 8));
     public LayerMask canSpawnBulletHole = ~((1 << 8) | (1 << 11));
 
+    public bool wasDropped = false;
+
     private void Awake()
     {
         if (gameObject.transform.Find("Default Arms") != null) HandsDisable();
