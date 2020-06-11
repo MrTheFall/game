@@ -69,7 +69,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.7
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -165,7 +165,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.7
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -260,6 +260,7 @@ MonoBehaviour:
   canSpawnBulletHole:
     serializedVersion: 2
     m_Bits: 5687
+  wasDropped: 0
 --- !u!114 &5080690660054179334
 MonoBehaviour:
   m_ObjectHideFlags: 0

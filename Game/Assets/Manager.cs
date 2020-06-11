@@ -511,7 +511,9 @@ namespace FPSGame
 
         private bool CalculateTeam()
         {
-            return PhotonNetwork.CurrentRoom.PlayerCount % 2 == 0;
+            if(GameSettings.GameMode == GameMode.FFA) return false;
+            if (GameSettings.GameMode == GameMode.ORIGINAL) return PhotonNetwork.CurrentRoom.PlayerCount % 2 == 0;
+            else return false;
         }
 
         public void NewPlayer_S(ProfileData p)
@@ -874,14 +876,14 @@ namespace FPSGame
             newkill.transform.Find("Player1").GetComponent<Text>().text = playerInfo[player1_id - 1].profile.username;
             if(playerInfo[player1_id - 1].awayTeam)
             {
-                newkill.transform.Find("Player1").GetComponent<Text>().color = Color.blue;
+                newkill.transform.Find("Player1").GetComponent<Text>().color = new Color(0, 3, 255, 255);
             }
             else newkill.transform.Find("Player1").GetComponent<Text>().color = Color.red;
 
             newkill.transform.Find("Player2").GetComponent<Text>().text = playerInfo[player2_id - 1].profile.username;
             if (playerInfo[player2_id - 1].awayTeam)
             {
-                newkill.transform.Find("Player2").GetComponent<Text>().color = Color.blue;
+                newkill.transform.Find("Player2").GetComponent<Text>().color = new Color(0, 3, 255, 255);
             }
             else newkill.transform.Find("Player2").GetComponent<Text>().color = Color.red;
             Destroy(newkill, 7f);

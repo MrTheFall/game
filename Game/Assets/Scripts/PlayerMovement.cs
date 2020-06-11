@@ -7,6 +7,8 @@ using System;
 public class PlayerMovement : MonoBehaviourPunCallbacks
 {
     public CharacterController controller;
+    public AudioSource audio;
+    public AudioClip clip;
 
     public float speed = 7f;
     public float normalSpeed = 7f;
@@ -30,13 +32,17 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        audio = gameObject.transform.GetComponent<AudioSource>();
         if (!photonView.IsMine)
         {
+            audio.volume = 0.5f;
             ChangeLayersRecursively(gameObject.transform, "PlayerEnemy");
             gameObject.GetComponent<CharacterController>().enabled = false; // this removes character controller's hitbox, so we can make our own
+            Destroy(gameObject.GetComponent<AudioListener>());
         }
         else
         {
+            audio.volume = 0.2f;
             speed = normalSpeed;
             gameObject.transform.Find("Default Armless Player").gameObject.SetActive(false);
             gameObject.transform.Find("Default Arms").gameObject.SetActive(false);
@@ -96,7 +102,6 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
             controller.Move(velocity * Time.deltaTime);
 
-
             isSprinting = Input.GetKey(KeyCode.LeftShift) && Input.GetAxisRaw("Vertical") > 0 && !Input.GetMouseButton(1) && !Input.GetMouseButton(0) && !isCrouching;
             if (isSprinting)
             {
@@ -129,6 +134,18 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
                 animator.SetBool("CrouchingWalk", true);
             }
             else animator.SetBool("CrouchingWalk", false);
-        }
+
+            if (isWalking && isGrounded && !audio.isPlaying)
+            {
+                photonView.RPC("Step", RpcTarget.All);
+            }
+
+            }
+    }
+
+    [PunRPC]
+    public void Step()
+    {
+        audio.PlayOneShot(clip);
     }
 }

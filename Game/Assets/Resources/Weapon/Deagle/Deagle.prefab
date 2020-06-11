@@ -72,6 +72,11 @@ PrefabInstance:
       propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2643885017658928040, guid: c333722ee2130c44c83bc75df59b0422,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 3064212143041752343, guid: c333722ee2130c44c83bc75df59b0422,
         type: 3}
       propertyPath: m_Name
@@ -90,6 +95,36 @@ PrefabInstance:
     - target: {fileID: 6047708125636743356, guid: c333722ee2130c44c83bc75df59b0422,
         type: 3}
       propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047708125636743356, guid: c333722ee2130c44c83bc75df59b0422,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047708125636743356, guid: c333722ee2130c44c83bc75df59b0422,
+        type: 3}
+      propertyPath: Loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047708125636743356, guid: c333722ee2130c44c83bc75df59b0422,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047708125636743356, guid: c333722ee2130c44c83bc75df59b0422,
+        type: 3}
+      propertyPath: DopplerLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047708125636743356, guid: c333722ee2130c44c83bc75df59b0422,
+        type: 3}
+      propertyPath: Pan2D
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047708125636743356, guid: c333722ee2130c44c83bc75df59b0422,
+        type: 3}
+      propertyPath: rolloffMode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6154809872831130457, guid: c333722ee2130c44c83bc75df59b0422,
