@@ -5,6 +5,7 @@ using Photon.Pun;
 using FPSGame;
 using UnityEngine.UI;
 using System.Linq;
+using System;
 
 public class Health : MonoBehaviourPunCallbacks
 {
@@ -35,13 +36,13 @@ public class Health : MonoBehaviourPunCallbacks
                 photonView.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
                 if (awayTeam)
                 {
-                    ui_team.text = "RED Team";
-                    ui_team.color = Color.red;
+                    ui_team.text = "BLUE Team";
+                    ui_team.color = Color.blue;
                 }
                 else
                 {
-                    ui_team.text = "BLUE Team";
-                    ui_team.color = Color.blue;
+                    ui_team.text = "RED Team";
+                    ui_team.color = Color.red;
                 }
             }
             else
@@ -59,11 +60,11 @@ public class Health : MonoBehaviourPunCallbacks
 
         if (awayTeam)
         {
-            ColorTeamIndicators(Color.red);
+            ColorTeamIndicators(Color.blue);
         }
         else
         {
-            ColorTeamIndicators(Color.blue);
+            ColorTeamIndicators(Color.red);
         }
     }
 
@@ -121,8 +122,14 @@ public class Health : MonoBehaviourPunCallbacks
             Debug.LogError(current_health);
             if (current_health <= 0)
             {
+                Debug.LogWarning(PhotonNetwork.LocalPlayer.ActorNumber);
+                if (p_actor >= 0) photonView.RPC("KillAddRPC", RpcTarget.All, p_actor, PhotonNetwork.LocalPlayer.ActorNumber);
                 photonView.RPC("DropWeapon", RpcTarget.All);
-                if (GameSettings.GameMode == GameMode.ORIGINAL) manager.mapcam.SetActive(true);
+                if (GameSettings.GameMode == GameMode.ORIGINAL)
+                {
+                    manager.mapcam.SetActive(true);
+                    ui_healthbar.parent.gameObject.SetActive(false);
+                }
                 PhotonNetwork.Destroy(gameObject);
                 manager.ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 1, 1);
                 if (GameSettings.GameMode == GameMode.FFA) manager.StartCoroutine("RespawnTimer");
@@ -134,6 +141,12 @@ public class Health : MonoBehaviourPunCallbacks
                 }
             }
         }
+    }
+
+    [PunRPC]
+    public void KillAddRPC(int player1_id, int player2_id)
+    {
+        manager.KillAdd(player1_id, player2_id);
     }
 
 }

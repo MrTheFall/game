@@ -49,6 +49,8 @@ namespace FPSGame
 
         public string player_prefab;
         public Transform[] spawnpoints;
+        public Transform[] awaySpawn;
+        public Transform[] homeSpawn;
 
         public List<PlayerInfo> playerInfo = new List<PlayerInfo>();
         public int myind;
@@ -62,9 +64,16 @@ namespace FPSGame
         private Text ui_respawntimer;
         private GameObject ui_health;
         private Text ui_timer;
+        private Transform ui_winner;
+        private Transform ui_killList;
+
 
         public int mainmenu = 0;
         public int killcount = 3;
+
+        public int winScore = 3;
+        public int homeScore = 0;
+        public int awayScore = 0;
 
         public GameObject mapcam;
         private GameState state = GameState.Playing;
@@ -130,7 +139,18 @@ namespace FPSGame
         public void Spawn()
         {
             Transform t_spawn = spawnpoints[Random.Range(0, spawnpoints.Length)];
-            PhotonNetwork.Instantiate(player_prefab, t_spawn.position, t_spawn.rotation);
+            if (GameSettings.GameMode == GameMode.ORIGINAL)
+            {
+                if (GameSettings.IsAwayTeam)
+                {
+                    t_spawn = awaySpawn[Random.Range(0, awaySpawn.Length)];
+                }
+                else
+                {
+                    t_spawn = homeSpawn[Random.Range(0, homeSpawn.Length)];
+                }
+                PhotonNetwork.Instantiate(player_prefab, t_spawn.position, t_spawn.rotation);
+            }
         }
         
         public void WaitBeforeSpawn()
@@ -145,6 +165,8 @@ namespace FPSGame
             ui_leaderboard = GameObject.Find("HUD").transform.Find("Leaderboard").transform;
             ui_endgame = GameObject.Find("HUD").transform.Find("End Game").transform;
             ui_timer = GameObject.Find("HUD/Timer/Text").GetComponent<Text>();
+            ui_winner = GameObject.Find("HUD").transform.Find("Winner").transform;
+            ui_killList = GameObject.Find("HUD/KillList").transform;
 
             RefreshMyStats();
         }
@@ -181,8 +203,8 @@ namespace FPSGame
 
             if (GameSettings.GameMode == GameMode.ORIGINAL)
             {
-                p_lb.Find("Header/Score/Home").GetComponent<Text>().text = "0";
-                p_lb.Find("Header/Score/Away").GetComponent<Text>().text = "0";
+                p_lb.Find("Header/Score/Home").GetComponent<Text>().text = homeScore.ToString();
+                p_lb.Find("Header/Score/Away").GetComponent<Text>().text = awayScore.ToString();
             }
 
 
@@ -401,13 +423,28 @@ namespace FPSGame
         private void ScoreCheck()
         {
             bool detectwin = false;
-
-            foreach (PlayerInfo a in playerInfo)
+            if (GameSettings.GameMode == GameMode.FFA)
             {
-                if (a.kills >= killcount)
+                foreach (PlayerInfo a in playerInfo)
                 {
+                    if (a.kills >= killcount)
+                    {
+                        detectwin = true;
+                        break;
+                    }
+                }
+            }
+            if(GameSettings.GameMode == GameMode.ORIGINAL)
+            {
+                if(awayScore >= winScore)
+                {
+                    ui_winner.Find("Red").gameObject.SetActive(true);
                     detectwin = true;
-                    break;
+                }
+                if (homeScore >= winScore)
+                {
+                    ui_winner.Find("Blue").gameObject.SetActive(true);
+                    detectwin = true;
                 }
             }
             if (detectwin)
@@ -641,12 +678,16 @@ namespace FPSGame
                 {
                     respawned = true;
                     StartCoroutine(NewRound());
+                    awayScore += 1;
+                    ui_winner.Find("Red").gameObject.SetActive(true);
                 }
                 list = SortHome(playerInfo);
                 if (list.All(x => x.isDead) && !respawned)
                 {
                     respawned = true;
                     StartCoroutine(NewRound());
+                    homeScore += 1;
+                    ui_winner.Find("Blue").gameObject.SetActive(true);
                 }
             }
 
@@ -660,6 +701,8 @@ namespace FPSGame
             DestroyWeapons();
             DestroyPlayers();
             Debug.LogWarning("Respawning");
+            ui_winner.Find("Blue").gameObject.SetActive(false);
+            ui_winner.Find("Red").gameObject.SetActive(false);
             StartCoroutine("RespawnTimer");
         }
 
@@ -823,5 +866,25 @@ namespace FPSGame
             }
         }
 
+        public void KillAdd(int player1_id, int player2_id)
+        {
+            GameObject kill = GameObject.Find("HUD/KillList/Kill");
+            GameObject newkill = Instantiate(kill, ui_killList) as GameObject;
+            newkill.gameObject.SetActive(true);
+            newkill.transform.Find("Player1").GetComponent<Text>().text = playerInfo[player1_id - 1].profile.username;
+            if(playerInfo[player1_id - 1].awayTeam)
+            {
+                newkill.transform.Find("Player1").GetComponent<Text>().color = Color.blue;
+            }
+            else newkill.transform.Find("Player1").GetComponent<Text>().color = Color.red;
+
+            newkill.transform.Find("Player2").GetComponent<Text>().text = playerInfo[player2_id - 1].profile.username;
+            if (playerInfo[player2_id - 1].awayTeam)
+            {
+                newkill.transform.Find("Player2").GetComponent<Text>().color = Color.blue;
+            }
+            else newkill.transform.Find("Player2").GetComponent<Text>().color = Color.red;
+            Destroy(newkill, 7f);
+        }
     }
 }
