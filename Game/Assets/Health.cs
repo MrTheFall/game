@@ -26,6 +26,7 @@ public class Health : MonoBehaviourPunCallbacks
         manager = GameObject.Find("Manager").GetComponent<Manager>();
         if (photonView.IsMine)
         {
+            awayTeam = GameSettings.IsAwayTeam;
             ui_healthbar = GameObject.Find("Canvas/HUD/Health/Bar").transform;
             refreshHealthBar();
             ui_team = GameObject.Find("HUD/Team/Text").GetComponent<Text>();
@@ -56,12 +57,16 @@ public class Health : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncTeam(bool p_awayTeam)
     {
-        awayTeam = p_awayTeam;
-        if (awayTeam != p_awayTeam)
+        if (photonView.IsMine)
         {
-            awayTeam = p_awayTeam;
-            photonView.RPC("TakeDamageRPC", RpcTarget.All, 999, -1);
+            if (awayTeam != p_awayTeam)
+            {
+                awayTeam = p_awayTeam;
+                Debug.LogWarning("Team Changed");
+                photonView.RPC("TakeDamageRPC", RpcTarget.All, 999, -1);
+            }
         }
+        awayTeam = p_awayTeam;
 
         if (awayTeam)
         {

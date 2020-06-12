@@ -674,7 +674,6 @@ namespace FPSGame
                             break;
                         case 3:
                             playerInfo[i].awayTeam = true;
-                            GameSettings.IsAwayTeam = true;
                             foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Player"))
                             {
                                 gameObject.GetComponent<Health>().TrySync();
@@ -683,7 +682,6 @@ namespace FPSGame
 
                         case 4:
                             playerInfo[i].awayTeam = false;
-                            GameSettings.IsAwayTeam = false;
                             foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Player"))
                             {
                                 gameObject.GetComponent<Health>().TrySync();
@@ -706,6 +704,7 @@ namespace FPSGame
                     //до этой проверки нужно установить игроку isDead true
                     if (list.All(x => x.isDead) && !respawned)
                     {
+                        Debug.LogWarning("away respawned");
                         respawned = true;
                         StartCoroutine(NewRound());
                         awayScore += 1;
@@ -714,6 +713,7 @@ namespace FPSGame
                     list = SortHome(playerInfo);
                     if (list.All(x => x.isDead) && !respawned)
                     {
+                        Debug.LogWarning("home respawned");
                         respawned = true;
                         StartCoroutine(NewRound());
                         homeScore += 1;
@@ -921,6 +921,7 @@ namespace FPSGame
         public void PickAway()
         {
             ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 3, 0);
+            GameSettings.IsAwayTeam = true;
             ui_team.gameObject.SetActive(false);
             Pause.paused = false;
             //StartCoroutine(RespawnTimer());
@@ -928,6 +929,7 @@ namespace FPSGame
         public void PickHome()
         {
             ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 4, 0);
+            GameSettings.IsAwayTeam = false;
             ui_team.gameObject.SetActive(false);
             Pause.paused = false;
             //StartCoroutine(RespawnTimer());
