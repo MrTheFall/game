@@ -734,6 +734,15 @@ namespace FPSGame
             ui_winner.Find("Blue").gameObject.SetActive(false);
             ui_winner.Find("Red").gameObject.SetActive(false);
             StartCoroutine("RespawnTimer");
+            resetWeaponPos();
+        }
+
+        public void resetWeaponPos()
+        {
+            foreach (GameObject weapon in GameObject.FindGameObjectsWithTag("Gun"))
+            {
+                weapon.GetComponent<PointGun>().resetPos();
+            }
         }
 
         public void DestroyPlayers()

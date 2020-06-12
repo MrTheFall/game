@@ -87,6 +87,8 @@ public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the 
 
     public bool wasDropped = false;
 
+    private Vector3 originalPos;
+
     private void Awake()
     {
         if (gameObject.transform.Find("Default Arms") != null) HandsDisable();
@@ -96,6 +98,7 @@ public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the 
     {
         isReloading = false;
         ui = FindObjectOfType<Weapon_UI>();
+        originalPos = gameObject.transform.position;
     }
 
     private void Update()
@@ -319,6 +322,11 @@ public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the 
     public void HandsDisable()
     {
         gameObject.transform.Find("Default Arms").gameObject.SetActive(false);
+    }
+
+    public void resetPos()
+    {
+        gameObject.transform.position = originalPos;
     }
 
 }
