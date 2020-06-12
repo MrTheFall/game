@@ -66,6 +66,7 @@ namespace FPSGame
         private Text ui_timer;
         private Transform ui_winner;
         private Transform ui_killList;
+        private Transform ui_team;
 
 
         public int mainmenu = 0;
@@ -100,6 +101,13 @@ namespace FPSGame
 
             if (Input.GetKeyDown(KeyCode.Tab)) Leaderboard(ui_leaderboard);
             if (Input.GetKeyUp(KeyCode.Tab)) ui_leaderboard.gameObject.SetActive(false);
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                ui_team.gameObject.SetActive(!ui_team.gameObject.activeSelf);
+                Pause.paused = ui_team.gameObject.activeSelf;
+                Cursor.lockState = (ui_team.gameObject.activeSelf) ? CursorLockMode.None : CursorLockMode.Locked;
+                Cursor.visible = ui_team.gameObject.activeSelf;
+            }
         }
 
         private void OnEnable()
@@ -167,6 +175,7 @@ namespace FPSGame
             ui_timer = GameObject.Find("HUD/Timer/Text").GetComponent<Text>();
             ui_winner = GameObject.Find("HUD").transform.Find("Winner").transform;
             ui_killList = GameObject.Find("HUD/KillList").transform;
+            ui_team = GameObject.Find("HUD/Team/Window").transform;
 
             RefreshMyStats();
         }
@@ -663,6 +672,23 @@ namespace FPSGame
                             playerInfo[i].isDead = false;
                             Debug.LogError($"Player {playerInfo[i].profile.username} respawned");
                             break;
+                        case 3:
+                            playerInfo[i].awayTeam = true;
+                            GameSettings.IsAwayTeam = true;
+                            foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Player"))
+                            {
+                                gameObject.GetComponent<Health>().TrySync();
+                            }
+                            break;
+
+                        case 4:
+                            playerInfo[i].awayTeam = false;
+                            GameSettings.IsAwayTeam = false;
+                            foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Player"))
+                            {
+                                gameObject.GetComponent<Health>().TrySync();
+                            }
+                            break;
                     }
 
                     if (i == myind) RefreshMyStats();
@@ -889,6 +915,21 @@ namespace FPSGame
             }
             else newkill.transform.Find("Player2").GetComponent<Text>().color = Color.red;
             Destroy(newkill, 7f);
+        }
+        
+        public void PickAway()
+        {
+            ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 3, 0);
+            ui_team.gameObject.SetActive(false);
+            Pause.paused = false;
+            //StartCoroutine(RespawnTimer());
+        }
+        public void PickHome()
+        {
+            ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 4, 0);
+            ui_team.gameObject.SetActive(false);
+            Pause.paused = false;
+            //StartCoroutine(RespawnTimer());
         }
     }
 }

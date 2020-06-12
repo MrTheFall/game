@@ -149,7 +149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c333722ee2130c44c83bc75df59b0422, type: 3}
---- !u!4 &6451516046150686560 stripped
+--- !u!4 &4996038745949768560 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2079850958546263812, guid: c333722ee2130c44c83bc75df59b0422,
     type: 3}
@@ -160,7 +160,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 6451516046150686560}
+    m_TransformParent: {fileID: 4996038745949768560}
     m_Modifications:
     - target: {fileID: -7780734103960978560, guid: 99e1f3a723a4be044b0d937495cdf815,
         type: 3}
