@@ -917,7 +917,6 @@ namespace FPSGame
             Destroy(newkill, 7f);
         }
         
-        
         public void PickAway()
         {
             ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 3, 0);

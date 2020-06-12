@@ -265,7 +265,6 @@ public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the 
 
                         if (GameSettings.GameMode == GameMode.ORIGINAL)
                         {
-                            Debug.LogError(hit.collider.transform.root.gameObject.GetComponent<Health>().awayTeam);
                             if (hit.collider.transform.root.gameObject.GetComponent<Health>().awayTeam != GameSettings.IsAwayTeam)
                             {
                                 applyDamage = true;

@@ -22,6 +22,7 @@ public class Health : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        awayTeam = GameSettings.IsAwayTeam;
         current_health = max_health;
         manager = GameObject.Find("Manager").GetComponent<Manager>();
         if (photonView.IsMine)
@@ -56,7 +57,6 @@ public class Health : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncTeam(bool p_awayTeam)
     {
-        awayTeam = p_awayTeam;
         if (awayTeam != p_awayTeam)
         {
             awayTeam = p_awayTeam;
