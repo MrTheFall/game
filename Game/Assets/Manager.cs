@@ -149,8 +149,8 @@ namespace FPSGame
                 {
                     t_spawn = homeSpawn[Random.Range(0, homeSpawn.Length)];
                 }
-                PhotonNetwork.Instantiate(player_prefab, t_spawn.position, t_spawn.rotation);
             }
+            PhotonNetwork.Instantiate(player_prefab, t_spawn.position, t_spawn.rotation);
         }
         
         public void WaitBeforeSpawn()
@@ -672,27 +672,29 @@ namespace FPSGame
                 }
             }
             //Если убивает не мастерклиент то создается копия этого не мастерклиента. Потому что когда умирает мастерклиент то он только отправляет статы, но не получает ничего.
-            if (stat == 1 || stat == 0)
+            if (GameSettings.GameMode == GameMode.ORIGINAL)
             {
-                List<PlayerInfo> list = SortAway(playerInfo);
-                //до этой проверки нужно установить игроку isDead true
-                if (list.All(x => x.isDead) && !respawned)
+                if (stat == 1 || stat == 0)
                 {
-                    respawned = true;
-                    StartCoroutine(NewRound());
-                    awayScore += 1;
-                    ui_winner.Find("Red").gameObject.SetActive(true);
-                }
-                list = SortHome(playerInfo);
-                if (list.All(x => x.isDead) && !respawned)
-                {
-                    respawned = true;
-                    StartCoroutine(NewRound());
-                    homeScore += 1;
-                    ui_winner.Find("Blue").gameObject.SetActive(true);
+                    List<PlayerInfo> list = SortAway(playerInfo);
+                    //до этой проверки нужно установить игроку isDead true
+                    if (list.All(x => x.isDead) && !respawned)
+                    {
+                        respawned = true;
+                        StartCoroutine(NewRound());
+                        awayScore += 1;
+                        ui_winner.Find("Red").gameObject.SetActive(true);
+                    }
+                    list = SortHome(playerInfo);
+                    if (list.All(x => x.isDead) && !respawned)
+                    {
+                        respawned = true;
+                        StartCoroutine(NewRound());
+                        homeScore += 1;
+                        ui_winner.Find("Blue").gameObject.SetActive(true);
+                    }
                 }
             }
-
 
             ScoreCheck();
         }
