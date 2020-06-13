@@ -1935,10 +1935,31 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3041847983500308517, guid: 50299bd46bd84bb4d97adce09cbf8b12,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 3041847983500308517, guid: 50299bd46bd84bb4d97adce09cbf8b12,
+        type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3041847983500308517, guid: 50299bd46bd84bb4d97adce09cbf8b12,
+        type: 3}
+      propertyPath: m_Text
+      value: 28 / 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3041847983500308517, guid: 50299bd46bd84bb4d97adce09cbf8b12,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 495c9e2a934bcc640a8d7427b13cb680,
+        type: 3}
     - target: {fileID: 3041847983500308518, guid: 50299bd46bd84bb4d97adce09cbf8b12,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 20
+      value: -35
       objectReference: {fileID: 0}
     - target: {fileID: 3041847983500308518, guid: 50299bd46bd84bb4d97adce09cbf8b12,
         type: 3}

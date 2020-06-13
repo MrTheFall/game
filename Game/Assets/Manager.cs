@@ -103,11 +103,47 @@ namespace FPSGame
             if (Input.GetKeyUp(KeyCode.Tab)) ui_leaderboard.gameObject.SetActive(false);
             if (Input.GetKeyDown(KeyCode.M))
             {
-                ui_team.gameObject.SetActive(!ui_team.gameObject.activeSelf);
-                Pause.paused = ui_team.gameObject.activeSelf;
-                Cursor.lockState = (ui_team.gameObject.activeSelf) ? CursorLockMode.None : CursorLockMode.Locked;
-                Cursor.visible = ui_team.gameObject.activeSelf;
+                TeamChooseMenu();
             }
+        }
+        private void TeamChooseMenu()
+        {
+            if (!ui_team.gameObject.activeSelf)
+            {
+
+                //clean up
+                GameObject players = GameObject.Find("HUD/Team/Window/Blue/Players");
+                for (int i = 1; i < players.transform.childCount; i++)
+                {
+                    Destroy(players.transform.GetChild(i).gameObject);
+                }
+                players = GameObject.Find("HUD/Team/Window/Red/Players");
+                for (int i = 1; i < players.transform.childCount; i++)
+                {
+                    Destroy(players.transform.GetChild(i).gameObject);
+                }
+
+
+                foreach (PlayerInfo a in SortAway(playerInfo))
+                {
+                    GameObject player = GameObject.Find("HUD/Team/Window/Blue/Players/Text");
+                    GameObject newPlayer = Instantiate(player, player.transform.parent) as GameObject;
+                    newPlayer.GetComponent<Text>().text = a.profile.username;
+                    newPlayer.SetActive(true);
+                }
+                foreach (PlayerInfo a in SortHome(playerInfo))
+                {
+                    GameObject player = GameObject.Find("HUD/Team/Window/Red/Players/Text");
+                    GameObject newPlayer = Instantiate(player, player.transform.parent) as GameObject;
+                    newPlayer.GetComponent<Text>().text = a.profile.username;
+                    newPlayer.SetActive(true);
+                }
+            }
+
+            ui_team.gameObject.SetActive(!ui_team.gameObject.activeSelf);
+            Pause.paused = ui_team.gameObject.activeSelf;
+            Cursor.lockState = (ui_team.gameObject.activeSelf) ? CursorLockMode.None : CursorLockMode.Locked;
+            Cursor.visible = ui_team.gameObject.activeSelf;
         }
 
         private void OnEnable()
