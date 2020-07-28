@@ -491,17 +491,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdde9bd90cf934c4d97507f84f65d697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  matchLength: 180
   player_prefab: Player
   spawnpoints:
   - {fileID: 208140355}
   - {fileID: 2046411711}
   - {fileID: 1483246234}
+  awaySpawn: []
+  homeSpawn: []
   myind: 0
   mainmenu: 0
   killcount: 3
+  winScore: 3
+  homeScore: 0
+  awayScore: 0
   mapcam: {fileID: 1937004659}
   StandartWeapon: {fileID: 6451516046150686191, guid: 8ad6cd96e84996140bbe5f38c655efaa,
     type: 3}
+  perpetual: 0
 --- !u!4 &891811595
 Transform:
   m_ObjectHideFlags: 0
@@ -1440,6 +1447,11 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6451516046150685004, guid: 8ad6cd96e84996140bbe5f38c655efaa,
+        type: 3}
+      propertyPath: viewIdField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6451516046150685281, guid: 8ad6cd96e84996140bbe5f38c655efaa,
         type: 3}
       propertyPath: viewIdField
       value: 2

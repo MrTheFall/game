@@ -897,11 +897,19 @@ MonoBehaviour:
   PistolName: Pistol
   DeagleName: Deagle
   M4A1Name: M4A1
+  AWPName: AWP
   Recoil_Rotation: {fileID: 2687093689110031727}
+  scopeOverlay: {fileID: 0}
+  mainCamera: {fileID: 0}
+  Gun: {fileID: 0}
+  scopedFOV: 25
+  normalFOV: 0
+  ReloadingBool: Reloading
   RifleBool: RifleZoomedIn
   PistolBool: PistolZoomedIn
   DeagleBool: DeagleZoomedIn
   M4A1Bool: M4A1ZoomedIn
+  AWPBool: AWPZoomedIn
 --- !u!114 &357890624158122301
 MonoBehaviour:
   m_ObjectHideFlags: 0

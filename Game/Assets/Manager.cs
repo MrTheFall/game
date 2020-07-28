@@ -901,6 +901,9 @@ namespace FPSGame
                 case 2: 
                     StandartWeapon = (GameObject)Resources.Load("Weapon/M4A1/M4A1");
                     break;
+                case 3:
+                    StandartWeapon = (GameObject)Resources.Load("Weapon/AWP/AWP");
+                    break;
             }
             HilightWeapon(lastId, id - 1);
             lastId = id - 1;
