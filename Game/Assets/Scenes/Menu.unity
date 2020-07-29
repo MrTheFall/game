@@ -2682,7 +2682,7 @@ MonoBehaviour:
   maps:
   - name: Test Room
     scene: 1
-  - name: Test Room 2
+  - name: Aim #1
     scene: 2
 --- !u!4 &1008930867
 Transform:

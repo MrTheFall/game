@@ -107,8 +107,8 @@ public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the 
         {
             DropRotation();
         }
-
-        if (!gameObject.transform.root.GetComponent<PhotonView>().IsMine) return;
+        if (!gameObject.GetComponent<PhotonView>().IsMine) return;
+        
 
         if (Pause.paused) return;
 
