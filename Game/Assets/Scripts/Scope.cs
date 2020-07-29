@@ -16,6 +16,10 @@ public class Scope : MonoBehaviourPunCallbacks
     public GameObject Gun;
     public float scopedFOV = 25;
     public float normalFOV;
+    [Space()]
+
+    public AudioSource zoomInSound;
+    public AudioSource zoomOutSound;
 
     public string ReloadingBool = "Reloading";
     public string RifleBool = "RifleZoomedIn";
@@ -105,6 +109,15 @@ public class Scope : MonoBehaviourPunCallbacks
                     animator.SetBool(AWPBool, false);
                 }
             }
+            if (Input.GetButtonDown("Fire2"))
+            {
+                zoomInSound.Play();
+            }
+            if (Input.GetButtonUp("Fire2"))
+            {
+                zoomOutSound.Play();
+            }
+
         }
 
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetAxisRaw("Vertical") > 0 && !Input.GetMouseButton(1) && !Input.GetMouseButton(0) && !Input.GetKey(KeyCode.LeftControl))
