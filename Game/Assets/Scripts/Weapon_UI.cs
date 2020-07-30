@@ -18,7 +18,7 @@ public class Weapon_UI : MonoBehaviour
     {
         if (!ammoText.gameObject.activeInHierarchy)
         {
-            ammoText.gameObject.SetActive(true);
+            ammoText.transform.parent.gameObject.SetActive(true);
         }
 
         ammoText.text = _ammo.ToString() + " / " + _maxAmmo.ToString();
@@ -36,7 +36,7 @@ public class Weapon_UI : MonoBehaviour
 
     public void HideUI()
     {
-        ammoText.gameObject.SetActive(false);
+        ammoText.transform.parent.gameObject.SetActive(false);
         crossHair.gameObject.SetActive(false);
     }
 }
