@@ -22,7 +22,6 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public float jumpHeight = 3;
 
     public Transform groundCheck;
-    public float groundDistance = 0.1f;
 
     public Animator animator;
 
@@ -75,8 +74,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
             if (Pause.paused) return;
 
-
-            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance);
+            isGrounded = Physics.CheckCapsule(groundCheck.position, groundCheck.position, 0.35f, ~LayerMask.GetMask("Player"));
 
             if (isGrounded && velocity.y < 0)
             {
