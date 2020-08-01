@@ -524,7 +524,6 @@ MonoBehaviour:
   gravity: -39.24
   jumpHeight: 2
   groundCheck: {fileID: 3966099987702982733}
-  groundDistance: 0.23
   animator: {fileID: 807387309169177457}
 --- !u!114 &6532908561434340539
 MonoBehaviour:
