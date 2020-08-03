@@ -2684,6 +2684,8 @@ MonoBehaviour:
     scene: 1
   - name: Aim #1
     scene: 2
+  - name: Aim #2
+    scene: 3
 --- !u!4 &1008930867
 Transform:
   m_ObjectHideFlags: 0
