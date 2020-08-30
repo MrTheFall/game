@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/aim_1.unity
     guid: 7dd6bb713dffb134da388d1c0a4b9fab
   - enabled: 1
-    path: Assets/Scenes/aim_2.unity
-    guid: 765d8dc123f5c7646b39fb44a3c076dd
+    path: Assets/Scenes/de_dust2.unity
+    guid: ec306304f6d026a4aa3966d8adac751b
   m_configObjects: {}
