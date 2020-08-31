@@ -919,7 +919,7 @@ MonoBehaviour:
   ammoReserve: 20
   reloadTime: 2.5
   isReloading: 0
-  ammoType: {fileID: 11400000, guid: 5a386ac3f80efa14b99712bb02d94ec1, type: 2}
+  ammoType: {fileID: 11400000, guid: e5a74287f12f11a4e82f2dc19405c57e, type: 2}
   damage: 100
   range: 30
   fireCoolDown: 1.5

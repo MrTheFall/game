@@ -767,6 +767,7 @@ namespace FPSGame
             DestroyWeapons();
             DestroyPlayers();
             Debug.LogWarning("Respawning");
+            photonView.RPC("ChangePlantStatus", RpcTarget.AllBufferedViaServer, false); // It may not work
             ui_winner.Find("Blue").gameObject.SetActive(false);
             ui_winner.Find("Red").gameObject.SetActive(false);
             StartCoroutine("RespawnTimer");

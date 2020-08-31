@@ -56,6 +56,8 @@ MonoBehaviour:
   - KillAddRPC
   - Step
   - GetTeam
+  - ChangePlantStatus
+  - SpawnBomb
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
