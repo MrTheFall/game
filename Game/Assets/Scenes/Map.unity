@@ -1701,6 +1701,11 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6451516046150685417, guid: 8ad6cd96e84996140bbe5f38c655efaa,
+        type: 3}
+      propertyPath: viewIdField
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6451516046150686345, guid: 8ad6cd96e84996140bbe5f38c655efaa,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1745,6 +1750,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -5.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6451516046150686642, guid: 8ad6cd96e84996140bbe5f38c655efaa,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8290606965784738147, guid: 8ad6cd96e84996140bbe5f38c655efaa,
         type: 3}

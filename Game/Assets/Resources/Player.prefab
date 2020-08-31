@@ -761,8 +761,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d20dbeba950d6334594d11b13b3c52a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlanted: 0
   groundCheck: {fileID: 3966099987702982733}
+  cam: {fileID: 8737589243385279262}
+  defuseRange: 350
   bomb_prefab: Bomb
 --- !u!65 &2677219673263366784
 BoxCollider:

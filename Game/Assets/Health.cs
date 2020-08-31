@@ -29,7 +29,7 @@ public class Health : MonoBehaviourPunCallbacks
             awayTeam = GameSettings.IsAwayTeam;
             ui_healthbar = GameObject.Find("Canvas/HUD/Health/Bar").transform;
             refreshHealthBar();
-            ui_team = GameObject.Find("HUD/Team/Text").GetComponent<Text>();
+            ui_team = GameObject.Find("HUD/Stats/Team/Text").GetComponent<Text>();
 
 
             if (GameSettings.GameMode == GameMode.ORIGINAL)
@@ -95,20 +95,17 @@ public class Health : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-
         if (photonView.IsMine)
         {
             refreshHealthBar();
         }
         if (Input.GetKeyDown(KeyCode.U)) TakeDamage(50, -1);
-
     }
 
     [PunRPC]
     public void TakeDamageRPC(int damage, int p_actor)
     {
         TakeDamage(damage, p_actor);
-
     }
 
     public void refreshHealthBar()

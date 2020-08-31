@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using FPSGame;
 
 public class Bomb : MonoBehaviourPunCallbacks
 {
     private bool onBombPlant = false;
     private Transform ui_bombbar;
+    private Manager manager;
     private float planting_status = 0f;
-    public bool isPlanted = false;
     public Transform groundCheck;
+    public Camera cam;
+    public float defuseRange;
 
     public string bomb_prefab;
     
@@ -17,6 +20,7 @@ public class Bomb : MonoBehaviourPunCallbacks
     void Start()
     {
         ui_bombbar = GameObject.Find("Canvas/HUD/Bomb/Bar").transform;
+        manager = GameObject.Find("Manager").GetComponent<Manager>();
     }
 
     // Update is called once per frame
@@ -26,7 +30,15 @@ public class Bomb : MonoBehaviourPunCallbacks
         {
             if (Input.GetKey(KeyCode.E))
             {
-                if (onBombPlant && !isPlanted)
+                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                Physics.Raycast(ray, out hit, defuseRange);
+                if (onBombPlant && !manager.isBombPlanted && !GameSettings.IsAwayTeam)
+                {
+                    ui_bombbar.parent.gameObject.SetActive(true);
+                    planting_status += Time.deltaTime * 25;
+                }
+                else if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Bomb") && manager.isBombPlanted && GameSettings.IsAwayTeam)
                 {
                     ui_bombbar.parent.gameObject.SetActive(true);
                     planting_status += Time.deltaTime * 25;
@@ -36,18 +48,29 @@ public class Bomb : MonoBehaviourPunCallbacks
                     ui_bombbar.parent.gameObject.SetActive(false);
                     planting_status = 0;
                 }
+
             }
             if (Input.GetKeyUp(KeyCode.E))
             {
                 ui_bombbar.parent.gameObject.SetActive(false);
                 planting_status = 0;
             }
-            if (planting_status >= 100f && !isPlanted)
+            if (planting_status >= 100f && !manager.isBombPlanted && !GameSettings.IsAwayTeam)
             {
-                isPlanted = true;
+                manager.isBombPlanted = true;
                 photonView.RPC("ChangePlantStatus", RpcTarget.AllBufferedViaServer, true);
                 SpawnBomb();
+                ui_bombbar.parent.gameObject.SetActive(false);
+                planting_status = 0;
             }
+            if (planting_status >= 100f && manager.isBombPlanted && GameSettings.IsAwayTeam)
+            {
+                manager.isBombPlanted = false;
+                photonView.RPC("ChangePlantStatus", RpcTarget.AllBufferedViaServer, false);
+                ui_bombbar.parent.gameObject.SetActive(false);
+                planting_status = 0;
+            }
+
             refreshBombBar();
         }
     }
@@ -60,7 +83,7 @@ public class Bomb : MonoBehaviourPunCallbacks
     [PunRPC]
     public void ChangePlantStatus(bool status)
     {
-        isPlanted = status;
+        manager.isBombPlanted = status;
 
     }
 

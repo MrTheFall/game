@@ -86,6 +86,8 @@ namespace FPSGame
 
         private bool respawned = false;
 
+        public bool isBombPlanted = false;
+
         public enum EventCodes : byte
         {
             NewPlayer,
@@ -740,7 +742,6 @@ namespace FPSGame
                     //до этой проверки нужно установить игроку isDead true
                     if (list.All(x => x.isDead) && !respawned)
                     {
-                        Debug.LogWarning("away respawned");
                         respawned = true;
                         StartCoroutine(NewRound());
                         awayScore += 1;
@@ -749,7 +750,6 @@ namespace FPSGame
                     list = SortHome(playerInfo);
                     if (list.All(x => x.isDead) && !respawned)
                     {
-                        Debug.LogWarning("home respawned");
                         respawned = true;
                         StartCoroutine(NewRound());
                         homeScore += 1;
@@ -760,14 +760,23 @@ namespace FPSGame
 
             ScoreCheck();
         }
+
+        public void BombExplosionRoundEnd()
+        {
+            respawned = true; // May cause some errors?
+            StartCoroutine(NewRound());
+            awayScore += 1;
+            ui_winner.Find("Red").gameObject.SetActive(true);
+        }
         
         private IEnumerator NewRound()
         {
             yield return new WaitForSeconds(7f);
             DestroyWeapons();
+            DestroyBomb();
             DestroyPlayers();
             Debug.LogWarning("Respawning");
-            photonView.RPC("ChangePlantStatus", RpcTarget.AllBufferedViaServer, false); // It may not work
+            isBombPlanted = false;
             ui_winner.Find("Blue").gameObject.SetActive(false);
             ui_winner.Find("Red").gameObject.SetActive(false);
             StartCoroutine("RespawnTimer");
@@ -792,6 +801,18 @@ namespace FPSGame
                 }
             }
         }
+
+        public void DestroyBomb()
+        {
+            foreach (GameObject Player in GameObject.FindGameObjectsWithTag("Bomb"))
+            {
+                if (Player.GetComponent<PhotonView>().IsMine == true && PhotonNetwork.IsConnected == true)
+                {
+                    PhotonNetwork.Destroy(Player.gameObject);
+                }
+            }
+        }
+
         public void DestroyWeapons()
         {
             foreach (GameObject Weapon in GameObject.FindGameObjectsWithTag("Gun"))
