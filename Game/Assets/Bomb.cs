@@ -66,7 +66,7 @@ public class Bomb : MonoBehaviourPunCallbacks
 
     public void SpawnBomb()
     {
-        PhotonNetwork.Instantiate(bomb_prefab, groundCheck.position, new Quaternion(0, groundCheck.rotation.y, 0, 0));
+        PhotonNetwork.Instantiate(bomb_prefab, groundCheck.position - new Vector3(0, 0.21f, 0), new Quaternion(0, groundCheck.rotation.y, 0, 0));
     }
 
     void OnTriggerEnter(Collider collider)
