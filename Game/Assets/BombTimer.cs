@@ -1,14 +1,16 @@
 ﻿using FPSGame;
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BombTimer : MonoBehaviour
+public class BombTimer : MonoBehaviourPunCallbacks
 {
     public float bombTimer;
-    bool isExploded = false;
+    public bool isExploded = false;
     private Manager manager;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +32,17 @@ public class BombTimer : MonoBehaviour
     private void Explosion()
     {
         Debug.LogWarning("BOMB EXPLODED. BOOM!");
-        manager.BombExplosionRoundEnd();
+        manager.photonView.RPC("BombExplosionRoundEnd", RpcTarget.All);
+
     }
+
+    [PunRPC]
+    public void Defuse()
+    {
+        if (photonView.IsMine)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
+    }
+
 }

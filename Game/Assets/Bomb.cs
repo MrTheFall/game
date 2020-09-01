@@ -38,10 +38,16 @@ public class Bomb : MonoBehaviourPunCallbacks
                     ui_bombbar.parent.gameObject.SetActive(true);
                     planting_status += Time.deltaTime * 25;
                 }
-                else if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Bomb") && manager.isBombPlanted && GameSettings.IsAwayTeam)
+                else if (hit.collider != null)
                 {
-                    ui_bombbar.parent.gameObject.SetActive(true);
-                    planting_status += Time.deltaTime * 25;
+                    if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Bomb") && manager.isBombPlanted && GameSettings.IsAwayTeam)
+                    {
+                        if (!hit.collider.gameObject.transform.root.gameObject.GetComponent<BombTimer>().isExploded)
+                        {
+                            ui_bombbar.parent.gameObject.SetActive(true);
+                            planting_status += Time.deltaTime * 25;
+                        }
+                    }
                 }
                 else
                 {
@@ -55,22 +61,6 @@ public class Bomb : MonoBehaviourPunCallbacks
                 ui_bombbar.parent.gameObject.SetActive(false);
                 planting_status = 0;
             }
-            if (planting_status >= 100f && !manager.isBombPlanted && !GameSettings.IsAwayTeam)
-            {
-                manager.isBombPlanted = true;
-                photonView.RPC("ChangePlantStatus", RpcTarget.AllBufferedViaServer, true);
-                SpawnBomb();
-                ui_bombbar.parent.gameObject.SetActive(false);
-                planting_status = 0;
-            }
-            if (planting_status >= 100f && manager.isBombPlanted && GameSettings.IsAwayTeam)
-            {
-                manager.isBombPlanted = false;
-                photonView.RPC("ChangePlantStatus", RpcTarget.AllBufferedViaServer, false);
-                ui_bombbar.parent.gameObject.SetActive(false);
-                planting_status = 0;
-            }
-
             refreshBombBar();
         }
     }
@@ -84,7 +74,6 @@ public class Bomb : MonoBehaviourPunCallbacks
     public void ChangePlantStatus(bool status)
     {
         manager.isBombPlanted = status;
-
     }
 
     public void SpawnBomb()

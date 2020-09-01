@@ -748,7 +748,7 @@ namespace FPSGame
                         ui_winner.Find("Red").gameObject.SetActive(true);
                     }
                     list = SortHome(playerInfo);
-                    if (list.All(x => x.isDead) && !respawned)
+                    if (list.All(x => x.isDead) && !respawned && !isBombPlanted)
                     {
                         respawned = true;
                         StartCoroutine(NewRound());
@@ -761,6 +761,7 @@ namespace FPSGame
             ScoreCheck();
         }
 
+        [PunRPC]
         public void BombExplosionRoundEnd()
         {
             respawned = true; // May cause some errors?
@@ -768,7 +769,16 @@ namespace FPSGame
             awayScore += 1;
             ui_winner.Find("Red").gameObject.SetActive(true);
         }
-        
+
+        [PunRPC]
+        public void BombDefuseRoundEnd()
+        {
+            respawned = true; // May cause some errors?
+            StartCoroutine(NewRound());
+            homeScore += 1;
+            ui_winner.Find("Blue").gameObject.SetActive(true);
+        }
+
         private IEnumerator NewRound()
         {
             yield return new WaitForSeconds(7f);
@@ -804,11 +814,11 @@ namespace FPSGame
 
         public void DestroyBomb()
         {
-            foreach (GameObject Player in GameObject.FindGameObjectsWithTag("Bomb"))
+            foreach (GameObject Bomb in GameObject.FindGameObjectsWithTag("Bomb"))
             {
-                if (Player.GetComponent<PhotonView>().IsMine == true && PhotonNetwork.IsConnected == true)
+                if (Bomb.GetComponent<PhotonView>().IsMine == true && PhotonNetwork.IsConnected == true)
                 {
-                    PhotonNetwork.Destroy(Player.gameObject);
+                    PhotonNetwork.Destroy(Bomb.gameObject);
                 }
             }
         }

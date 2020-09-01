@@ -514,6 +514,7 @@ MonoBehaviour:
   StandartWeapon: {fileID: 6451516046150686191, guid: 8ad6cd96e84996140bbe5f38c655efaa,
     type: 3}
   perpetual: 0
+  isBombPlanted: 0
 --- !u!4 &891811595
 Transform:
   m_ObjectHideFlags: 0
@@ -1318,6 +1319,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -2.02
       objectReference: {fileID: 0}
+    - target: {fileID: 5877192522818047964, guid: e169cf7e9718bd843897ce8c1ac3e3f6,
+        type: 3}
+      propertyPath: m_Name
+      value: Gun
+      objectReference: {fileID: 0}
     - target: {fileID: 8964967132072528136, guid: e169cf7e9718bd843897ce8c1ac3e3f6,
         type: 3}
       propertyPath: viewIdField
@@ -1755,6 +1761,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186861490094751111, guid: 8ad6cd96e84996140bbe5f38c655efaa,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 8290606965784738147, guid: 8ad6cd96e84996140bbe5f38c655efaa,
         type: 3}
