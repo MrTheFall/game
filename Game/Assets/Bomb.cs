@@ -55,6 +55,23 @@ public class Bomb : MonoBehaviourPunCallbacks
                     planting_status = 0;
                 }
 
+                if (planting_status >= 100f && !manager.isBombPlanted && !GameSettings.IsAwayTeam)
+                {
+                    manager.isBombPlanted = true;
+                    photonView.RPC("ChangePlantStatus", RpcTarget.AllBufferedViaServer, true);
+                    SpawnBomb();
+                    ui_bombbar.parent.gameObject.SetActive(false);
+                    planting_status = 0;
+                }
+                if (planting_status >= 100f && manager.isBombPlanted && GameSettings.IsAwayTeam)
+                {
+                    manager.isBombPlanted = false;
+                    photonView.RPC("ChangePlantStatus", RpcTarget.AllBufferedViaServer, false);
+                    ui_bombbar.parent.gameObject.SetActive(false);
+                    planting_status = 0;
+                    hit.collider.transform.parent.root.gameObject.GetComponent<BombTimer>().photonView.RPC("Defuse", RpcTarget.All);
+                    manager.photonView.RPC("BombDefuseRoundEnd", RpcTarget.All);
+                }
             }
             if (Input.GetKeyUp(KeyCode.E))
             {
