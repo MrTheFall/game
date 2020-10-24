@@ -19,6 +19,7 @@ public class Health : MonoBehaviourPunCallbacks
     public Renderer[] teamIndicators;
     private Text ui_team;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,21 +68,33 @@ public class Health : MonoBehaviourPunCallbacks
             }
         }
         awayTeam = p_awayTeam;
-
+        
+        var arrayOfChildren = gameObject.transform.Cast<Transform>().Where(c => c.gameObject.tag == "PlayerModel").ToArray();
         if (awayTeam)
         {
-            ColorTeamIndicators(Color.blue);
+            // ColorTeamIndicators(Color.blue);
+            foreach (var obj in arrayOfChildren)
+            {
+                obj.transform.Find("Red").gameObject.SetActive(false);
+                obj.transform.Find("Blue").gameObject.SetActive(true);
+
+            }
         }
         else
         {
-            ColorTeamIndicators(Color.red);
+            // ColorTeamIndicators(Color.red);
+            foreach (var obj in arrayOfChildren)
+            {
+                obj.transform.Find("Blue").gameObject.SetActive(false);
+                obj.transform.Find("Red").gameObject.SetActive(true);
+            }
         }
     }
 
-    private void ColorTeamIndicators(Color p_color)
+    /* private void ColorTeamIndicators(Color p_color)
     {
-        foreach (Renderer renderer in teamIndicators) renderer.material.color = p_color;
-    }
+        // foreach (Renderer renderer in teamIndicators) renderer.material.color = p_color;
+    } */
 
     public void TrySync()
     {

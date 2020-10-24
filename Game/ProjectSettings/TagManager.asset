@@ -9,6 +9,7 @@ TagManager:
   - Bullet
   - BombPlant
   - Bomb
+  - PlayerModel
   layers:
   - Default
   - TransparentFX
