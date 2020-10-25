@@ -33,7 +33,7 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
             StandartWeapon = FindObjectOfType<Manager>().StandartWeapon;
             GameObject t_weapon = (GameObject)PhotonNetwork.Instantiate("Weapon/" + StandartWeapon.name + "/" + StandartWeapon.name, gameObject.transform.position, gameObject.transform.rotation);
             t_weapon.name = StandartWeapon.name;
-            photonView.RPC("ClaimWeapon", RpcTarget.AllBuffered, t_weapon.GetPhotonView().ViewID);
+            photonView.RPC("ClaimWeapon", RpcTarget.AllBuffered, t_weapon.GetPhotonView().ViewID, GameSettings.IsAwayTeam);
         }
     }
 
@@ -65,7 +65,7 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
             {
                 if (!hit.collider.GetComponent<PointGun>().isEquipped)
                 {
-                    photonView.RPC("ClaimWeapon", RpcTarget.All, hit.collider.GetComponent<PhotonView>().ViewID);
+                    photonView.RPC("ClaimWeapon", RpcTarget.All, hit.collider.GetComponent<PhotonView>().ViewID, GameSettings.IsAwayTeam);
                 }
             }
             RaycastHit hit2;
@@ -78,7 +78,7 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void ClaimWeapon(int id)
+    void ClaimWeapon(int id, bool isAwayTeam)
     {
         gameObject.transform.Find("Default Arms").gameObject.SetActive(false);
         weapon = PhotonView.Find(id).gameObject;
@@ -94,6 +94,18 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
         myWeapon.WeaponIsActive(true);
         myWeapon.RecoilCamTransform = Recoil_Camera;
         myWeapon.cam = cam;
+        
+        if (isAwayTeam) // It gets clients' team, not player who equips weapon
+        {
+            weapon.transform.Find("Default Arms/Blue").gameObject.SetActive(true);
+            weapon.transform.Find("Default Arms/Red").gameObject.SetActive(false);
+        }
+        else
+        {
+            weapon.transform.Find("Default Arms/Blue").gameObject.SetActive(false);
+            weapon.transform.Find("Default Arms/Red").gameObject.SetActive(true);
+        }
+
         myWeapon.HandsEnable();
         myWeapon.wasDropped = false;
     }
