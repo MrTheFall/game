@@ -32,7 +32,7 @@ public class Bomb : MonoBehaviourPunCallbacks
             {
                 Ray ray = cam.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                Physics.Raycast(ray, out hit, defuseRange);
+                Physics.Raycast(ray, out hit, defuseRange, ~0, QueryTriggerInteraction.Ignore);
                 if (onBombPlant && !manager.isBombPlanted && !GameSettings.IsAwayTeam)
                 {
                     ui_bombbar.parent.gameObject.SetActive(true);

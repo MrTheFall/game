@@ -68,7 +68,9 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
                     photonView.RPC("ClaimWeapon", RpcTarget.All, hit.collider.GetComponent<PhotonView>().ViewID);
                 }
             }
-            Debug.LogError(hit.collider.gameObject.name);
+            RaycastHit hit2;
+            Physics.Raycast(ray, out hit2, pickupRange);
+            Debug.LogError(hit2.collider.gameObject.name);
 
 
         }
