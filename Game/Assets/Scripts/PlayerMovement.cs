@@ -28,6 +28,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     Vector3 velocity;
     bool isGrounded;
 
+    Vector3 move = Vector3.zero;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -81,12 +83,17 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
                 velocity.y = -2f;
             }
 
-            float x = Input.GetAxis("Horizontal");
-            float z = Input.GetAxis("Vertical");
+            move = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+            move = transform.TransformDirection(move) * speed;
 
-            Vector3 move = transform.right * x + transform.forward * z;
+            controller.Move(move * Time.deltaTime);
 
-            controller.Move(move * speed * Time.deltaTime);
+            //float x = Input.GetAxis("Horizontal");
+            //float z = Input.GetAxis("Vertical");
+
+            //Vector3 move = transform.right * x + transform.forward * z;
+
+            //controller.Move(move * speed * Time.deltaTime);
 
 
             if (Input.GetButtonDown("Jump") && isGrounded)
