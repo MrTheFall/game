@@ -386,36 +386,6 @@ Transform:
   m_Father: {fileID: 6274269606059755995}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &3222547957983413115
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4691117751903507021}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4691117751903507021
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3222547957983413115}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.6433623, y: -0.39320087, z: -1.8416657}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4235529402601730842}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3608659442676131868
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,7 +460,6 @@ Transform:
   - {fileID: 8503649050853790374}
   - {fileID: 6274269606059755995}
   - {fileID: 3966099987702982733}
-  - {fileID: 4691117751903507021}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -548,7 +517,7 @@ MonoBehaviour:
   clip: {fileID: 8300000, guid: e74b5c44f5c889c4589fa1236c6e0be7, type: 3}
   speed: 5
   normalSpeed: 5
-  sprintSpeed: 7
+  sprintSpeed: 10
   isSprinting: 0
   isCrouching: 0
   isWalking: 0
@@ -1213,15 +1182,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a2e135fdf18de545816486c9432eee0, type: 3}
---- !u!4 &2149494326396761303 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 398705618807830280, guid: 4a2e135fdf18de545816486c9432eee0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1755547430971409375}
-  m_PrefabAsset: {fileID: 0}
 --- !u!23 &2889471325163114517 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 3478331191430534090, guid: 4a2e135fdf18de545816486c9432eee0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1755547430971409375}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2149494326396761303 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 398705618807830280, guid: 4a2e135fdf18de545816486c9432eee0,
     type: 3}
   m_PrefabInstance: {fileID: 1755547430971409375}
   m_PrefabAsset: {fileID: 0}

@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
             if (Pause.paused) return;
 
-            isGrounded = Physics.CheckCapsule(groundCheck.position, groundCheck.position, 0.35f, ~LayerMask.GetMask("Player"));
+            isGrounded = Physics.CheckCapsule(groundCheck.position, groundCheck.position, 0.35f, ~(LayerMask.GetMask("Player") | LayerMask.GetMask("Ignore Raycast")));
 
             if (isGrounded && velocity.y < 0)
             {

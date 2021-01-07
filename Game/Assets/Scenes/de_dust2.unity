@@ -4212,6 +4212,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!4 &242512248 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4996038745949768560, guid: 8ad6cd96e84996140bbe5f38c655efaa,
+    type: 3}
+  m_PrefabInstance: {fileID: 1854103657}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &260953547
 Mesh:
   m_ObjectHideFlags: 0
@@ -52483,12 +52489,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1276177897}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1112894058 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4996038745949768560, guid: 8ad6cd96e84996140bbe5f38c655efaa,
-    type: 3}
-  m_PrefabInstance: {fileID: 1854103657}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1113892418 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 224337631449783790, guid: fcb65fbbc02b51f43b13493e1bc553c1,
@@ -64845,6 +64845,11 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6451516046150685315, guid: 8ad6cd96e84996140bbe5f38c655efaa,
+        type: 3}
+      propertyPath: viewIdField
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6451516046150685337, guid: 8ad6cd96e84996140bbe5f38c655efaa,
         type: 3}
       propertyPath: viewIdField
@@ -71000,7 +71005,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1302680288}
-  - {fileID: 1112894058}
+  - {fileID: 242512248}
   - {fileID: 123928041}
   m_Father: {fileID: 757536050}
   m_RootOrder: 3
