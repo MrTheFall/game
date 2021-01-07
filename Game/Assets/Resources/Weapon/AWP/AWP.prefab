@@ -921,7 +921,7 @@ MonoBehaviour:
   isReloading: 0
   ammoType: {fileID: 11400000, guid: e5a74287f12f11a4e82f2dc19405c57e, type: 2}
   damage: 100
-  range: 30
+  range: 9999
   fireCoolDown: 1.5
   RecoilPositionTransform: {fileID: 0}
   RecoilRotationTransform: {fileID: 0}

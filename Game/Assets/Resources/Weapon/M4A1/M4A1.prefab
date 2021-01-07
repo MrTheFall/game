@@ -312,7 +312,7 @@ MonoBehaviour:
   isReloading: 0
   ammoType: {fileID: 11400000, guid: 702b528bb57f7f24b9b9ca8fb29e066a, type: 2}
   damage: 15
-  range: 30
+  range: 9999
   fireCoolDown: 0.1
   RecoilPositionTransform: {fileID: 0}
   RecoilRotationTransform: {fileID: 0}
@@ -385,6 +385,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: PlayerModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542990568616247024, guid: 6d76c6a60488dca48a1a1cc7f52ca3fa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5794841226100696744, guid: 6d76c6a60488dca48a1a1cc7f52ca3fa,
         type: 3}

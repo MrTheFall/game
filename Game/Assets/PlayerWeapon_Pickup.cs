@@ -3,7 +3,6 @@ using Photon.Pun.Demo.Asteroids;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 using ExitGames.Client.Photon;
 using System.Net.Cache;
 using Photon.Pun.Demo.Procedural;
@@ -89,7 +88,7 @@ public class PlayerWeapon_Pickup : MonoBehaviourPunCallbacks
         myWeapon = weapon.GetComponent<PointGun>();
         myWeapon.ui = FindObjectOfType<Weapon_UI>();
         myWeapon.HandleUI();
-        myWeapon.RecoilPositionTransform = Recoil_Position ;
+        myWeapon.RecoilPositionTransform = Recoil_Position;
         myWeapon.RecoilRotationTransform = Recoil_Rotation;
         myWeapon.WeaponIsActive(true);
         myWeapon.RecoilCamTransform = Recoil_Camera;
