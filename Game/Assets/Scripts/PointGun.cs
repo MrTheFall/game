@@ -70,6 +70,7 @@ public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the 
     [Header("Sound")]
     public AudioSource shootAudio;
     public AudioSource reloadAudio;
+    public AudioSource hitmarker;
 
     [Header("UI")]
     public Sprite customCrossHair;// A sprite that represents the crosshair for this particular weapon
@@ -268,6 +269,8 @@ public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the 
                         Vector3 angles = new Vector3(-15, cam.transform.rotation.eulerAngles.y + 180, 0);
                         blood.transform.eulerAngles = angles;
                         blood.Play();
+
+                        hitmarker.Play();
                         
                         bool applyDamage = false;
 

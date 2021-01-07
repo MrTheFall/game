@@ -546,9 +546,9 @@ MonoBehaviour:
   controller: {fileID: 3307855066046693064}
   audio: {fileID: 5961369704887097029}
   clip: {fileID: 8300000, guid: e74b5c44f5c889c4589fa1236c6e0be7, type: 3}
-  speed: 7
-  normalSpeed: 7
-  sprintSpeed: 10
+  speed: 5
+  normalSpeed: 5
+  sprintSpeed: 7
   isSprinting: 0
   isCrouching: 0
   isWalking: 0
