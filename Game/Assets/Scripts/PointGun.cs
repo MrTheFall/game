@@ -89,6 +89,10 @@ public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the 
 
     private Vector3 originalPos;
 
+    [Header("Particles")]
+    public ParticleSystem bloodParticle;
+
+
     private void Awake()
     {
         if (gameObject.transform.Find("Default Arms") != null) HandsDisable();
@@ -259,6 +263,12 @@ public class PointGun : MonoBehaviourPunCallbacks// Inherit everything from the 
                     //if we hit enemy player
                     if (hit.collider.gameObject.layer == 11)
                     {
+                        ParticleSystem blood = Instantiate(bloodParticle);
+                        blood.transform.position = hit.transform.position;
+                        Vector3 angles = new Vector3(-15, cam.transform.rotation.eulerAngles.y + 180, 0);
+                        blood.transform.eulerAngles = angles;
+                        blood.Play();
+                        
                         bool applyDamage = false;
 
                         if (GameSettings.GameMode == GameMode.FFA)

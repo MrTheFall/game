@@ -956,6 +956,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 5687
   wasDropped: 0
+  bloodParticle: {fileID: 7103986202128297865, guid: 71a474194fac4f84cb75537d69c96a16,
+    type: 3}
 --- !u!114 &3466647864809449145
 MonoBehaviour:
   m_ObjectHideFlags: 0
